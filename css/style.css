@@ -1252,6 +1252,204 @@ main {
   height: 166px;
 }
 
+.pope-page-hero .page-hero-inner {
+  padding-bottom: 54px;
+}
+
+.pope-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.72fr);
+  gap: clamp(28px, 5vw, 70px);
+  align-items: center;
+}
+
+.hero-verse {
+  max-width: 760px;
+  margin-top: 24px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.hero-verse p {
+  color: rgba(255, 255, 255, 0.84);
+  font-family: var(--serif);
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.45;
+}
+
+.hero-verse cite {
+  display: block;
+  margin-top: 10px;
+  color: var(--gold-light);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.pope-hero-card {
+  overflow: hidden;
+  border: 1px solid rgba(240, 202, 122, 0.34);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.24);
+}
+
+.pope-hero-card img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.pope-hero-card figcaption {
+  padding: 14px 16px 16px;
+  color: var(--gold-light);
+  font-family: var(--serif);
+  text-align: center;
+}
+
+.pope-content-page {
+  margin-top: 8px;
+}
+
+.pope-intro-card {
+  max-width: 980px;
+}
+
+.pope-accordion-section {
+  display: grid;
+  gap: 14px;
+}
+
+.pope-accordion {
+  overflow: hidden;
+  border: 1px solid rgba(234, 223, 205, 0.92);
+  border-radius: 8px;
+  background: rgba(251, 248, 241, 0.78);
+}
+
+.pope-accordion summary {
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  color: var(--navy);
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: clamp(20px, 2vw, 26px);
+  list-style: none;
+}
+
+.pope-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.pope-accordion summary::after {
+  content: "+";
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(200, 149, 53, 0.4);
+  border-radius: 50%;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.pope-accordion[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.pope-accordion[open] summary::after {
+  content: "-";
+}
+
+.pope-accordion summary span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--navy);
+  background: linear-gradient(180deg, var(--gold-light), var(--gold));
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.pope-accordion summary strong {
+  font-weight: 800;
+}
+
+.pope-accordion > div {
+  padding: 20px;
+}
+
+.timeline-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+}
+
+.timeline-list li {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.25fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.timeline-list li:last-child {
+  border-bottom: 0;
+}
+
+.timeline-list time {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.timeline-list span {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.pope-gallery {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px);
+}
+
+.pope-gallery figure {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(251, 248, 241, 0.72);
+}
+
+.pope-gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.pope-gallery figcaption {
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .footer {
   color: var(--white);
   background:
@@ -1596,12 +1794,18 @@ main {
   .split-section,
   .reverse-section,
   .saint-hero-grid,
+  .pope-hero-grid,
   .featured-video-card {
     grid-template-columns: 1fr;
   }
 
   .saint-hero-card {
     max-width: 340px;
+  }
+
+  .pope-hero-card {
+    max-width: 360px;
+    justify-self: center;
   }
 
   .stat-grid,
@@ -1800,6 +2004,11 @@ main {
   .image-placeholder {
     min-height: 260px;
   }
+
+  .pope-hero-card,
+  .pope-gallery {
+    width: min(100%, 380px);
+  }
 }
 
 @media (max-width: 600px) {
@@ -1884,5 +2093,35 @@ main {
 
   .soundcloud-embed iframe {
     height: 150px;
+  }
+
+  .hero-verse {
+    padding: 18px;
+  }
+
+  .pope-accordion summary {
+    grid-template-columns: auto 1fr;
+    padding: 16px;
+  }
+
+  .pope-accordion summary::after {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 30px;
+    height: 30px;
+    font-size: 21px;
+  }
+
+  .pope-accordion > div {
+    padding: 18px;
+  }
+
+  .timeline-list li {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .pope-gallery {
+    grid-template-columns: 1fr;
   }
 }
