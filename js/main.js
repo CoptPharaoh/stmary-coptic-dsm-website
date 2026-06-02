@@ -7,7 +7,7 @@ const siteNavigation = [
       { label: "About Overview", href: "about.html" },
       { label: "Welcome", href: "about-welcome.html" },
       { label: "Clergy", href: "clergy.html" },
-      { label: "Our Patron Saint", href: "patron-saint.html" },
+      { label: "Our Patron Saint", href: "our-patron-saint.html" },
       { label: "Church History", href: "church-history.html" },
       { label: "Contact", href: "contact.html" },
     ],
