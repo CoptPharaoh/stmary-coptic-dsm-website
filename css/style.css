@@ -927,6 +927,331 @@ main {
   border-top: 1px solid var(--line);
 }
 
+.content-page {
+  display: grid;
+  gap: 26px;
+  padding-bottom: 52px;
+}
+
+.content-section {
+  border: 1px solid rgba(234, 223, 205, 0.88);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(24px, 3vw, 42px);
+}
+
+.content-section h2 {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: clamp(30px, 3.4vw, 48px);
+  line-height: 1.08;
+  margin-bottom: 14px;
+}
+
+.content-section h3 {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 23px;
+  line-height: 1.16;
+  margin-bottom: 10px;
+}
+
+.content-section p,
+.content-section li {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+.content-section p + p {
+  margin-top: 14px;
+}
+
+.story-grid,
+.split-section,
+.saint-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+}
+
+.reverse-section {
+  grid-template-columns: minmax(320px, 0.88fr) minmax(0, 1.12fr);
+}
+
+.content-image-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-soft);
+}
+
+.content-image-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+}
+
+.content-image-card figcaption {
+  padding: 12px 16px 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.image-placeholder {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 26px;
+  text-align: center;
+  background:
+    linear-gradient(rgba(251, 248, 241, 0.68), rgba(251, 248, 241, 0.72)),
+    url("../assets/images/bg-cross-pattern.png");
+  background-size: 150px;
+}
+
+.image-placeholder span {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.image-placeholder small {
+  color: var(--gold);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.stat-grid,
+.title-grid,
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.stat-card,
+.title-grid article,
+.resource-card,
+.callout-card {
+  border: 1px solid rgba(234, 223, 205, 0.9);
+  border-radius: 8px;
+  background: rgba(251, 248, 241, 0.72);
+  padding: 22px;
+}
+
+.stat-card strong {
+  display: block;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-card span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.callout-card {
+  border-color: rgba(200, 149, 53, 0.28);
+}
+
+.navy-callout {
+  color: var(--white);
+  border-color: rgba(240, 202, 122, 0.28);
+  background: linear-gradient(180deg, var(--navy-2), var(--navy));
+}
+
+.navy-callout h3 {
+  color: var(--gold-light);
+}
+
+.navy-callout p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.visit-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  color: var(--white);
+  border-color: rgba(240, 202, 122, 0.24);
+  background:
+    radial-gradient(circle at 86% 10%, rgba(240, 202, 122, 0.13), transparent 28%),
+    linear-gradient(135deg, var(--navy), var(--navy-3));
+}
+
+.visit-panel h2 {
+  color: var(--white);
+}
+
+.visit-panel p {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.cta-actions,
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.resource-actions {
+  margin-top: 16px;
+}
+
+.resource-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--navy);
+  background: linear-gradient(180deg, var(--gold-light), var(--gold));
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.saint-page-hero .page-hero-inner {
+  padding-bottom: 46px;
+}
+
+.saint-hero-card {
+  justify-self: center;
+  width: min(100%, 390px);
+  padding: 14px;
+  border: 1px solid rgba(240, 202, 122, 0.34);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.24);
+}
+
+.saint-hero-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.saint-content-page {
+  margin-top: 8px;
+}
+
+.quote-block {
+  margin: 18px 0 22px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  background: rgba(251, 248, 241, 0.78);
+}
+
+.quote-block p {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.2vw, 27px);
+  line-height: 1.35;
+}
+
+.quote-block cite {
+  display: block;
+  margin-top: 10px;
+  color: var(--gold);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.title-grid article {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.compact-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 0;
+}
+
+.two-column-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.clean-list,
+.two-column-list ul {
+  display: grid;
+  gap: 12px;
+  padding-left: 20px;
+}
+
+.saint-icon-card img {
+  max-height: 560px;
+  object-position: center 20%;
+}
+
+.hymn-section {
+  display: grid;
+  gap: 18px;
+}
+
+.resource-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.featured-video-card {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.55fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+}
+
+.responsive-embed {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--navy);
+}
+
+.responsive-embed iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+.video-embed {
+  aspect-ratio: 16 / 9;
+}
+
+.video-embed iframe {
+  height: 100%;
+}
+
+.soundcloud-embed iframe {
+  height: 166px;
+}
+
 .footer {
   color: var(--white);
   background:
@@ -1266,6 +1591,24 @@ main {
     justify-items: start;
     text-align: left;
   }
+
+  .story-grid,
+  .split-section,
+  .reverse-section,
+  .saint-hero-grid,
+  .featured-video-card {
+    grid-template-columns: 1fr;
+  }
+
+  .saint-hero-card {
+    max-width: 340px;
+  }
+
+  .stat-grid,
+  .title-grid,
+  .compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 900px) {
@@ -1425,6 +1768,38 @@ main {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .content-page {
+    gap: 20px;
+    padding-bottom: 34px;
+  }
+
+  .content-section {
+    padding: 24px;
+  }
+
+  .visit-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cta-actions {
+    width: 100%;
+  }
+
+  .cta-actions .btn {
+    flex: 1 1 180px;
+  }
+
+  .resource-grid,
+  .two-column-list {
+    grid-template-columns: 1fr;
+  }
+
+  .content-image-card img,
+  .image-placeholder {
+    min-height: 260px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1464,5 +1839,50 @@ main {
 
   .footer-brand h2 {
     font-size: 30px;
+  }
+
+  .content-section {
+    padding: 20px;
+  }
+
+  .content-section p,
+  .content-section li {
+    font-size: 15px;
+    line-height: 1.66;
+  }
+
+  .stat-grid,
+  .title-grid,
+  .compact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card,
+  .title-grid article,
+  .resource-card,
+  .callout-card {
+    padding: 18px;
+  }
+
+  .quote-block {
+    padding: 18px;
+  }
+
+  .saint-page-hero .page-hero-inner {
+    gap: 22px;
+  }
+
+  .saint-hero-card {
+    max-width: 300px;
+    padding: 10px;
+  }
+
+  .resource-actions a,
+  .cta-actions .btn {
+    width: 100%;
+  }
+
+  .soundcloud-embed iframe {
+    height: 150px;
   }
 }
