@@ -1426,7 +1426,8 @@ main {
 
 .pope-gallery {
   display: grid;
-  grid-template-columns: minmax(260px, 420px);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
 }
 
 .pope-gallery figure {
@@ -1434,11 +1435,12 @@ main {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(251, 248, 241, 0.72);
+  box-shadow: var(--shadow-soft);
 }
 
 .pope-gallery img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: center top;
 }
