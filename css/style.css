@@ -355,9 +355,9 @@ main {
   z-index: 0;
   display: block;
   background-image: url("../assets/images/mary-clouds-hero.jpeg");
-  background-position: 57% 34%;
+  background-position: 49% 34%;
   background-repeat: no-repeat;
-  background-size: max(100vw, clamp(1440px, 96vw, 2040px)) auto;
+  background-size: max(104vw, clamp(1500px, 98vw, 2040px)) auto;
   filter: saturate(1.06) brightness(1.04);
 }
 
@@ -414,8 +414,17 @@ main {
   font-family: var(--serif);
   font-size: clamp(50px, 6.1vw, 88px);
   line-height: 0.98;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   text-wrap: balance;
+}
+
+.hero-subheading {
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.94);
+  font-family: var(--serif);
+  font-size: clamp(25px, 2.6vw, 38px);
+  line-height: 1.18;
+  margin-bottom: 14px;
 }
 
 .hero-lead {
@@ -715,6 +724,15 @@ main {
   gap: 12px;
 }
 
+.mission-values-heading {
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 .mission-accordion details {
   overflow: hidden;
   border: 1px solid rgba(200, 149, 53, 0.22);
@@ -735,6 +753,7 @@ main {
   font-weight: 950;
   letter-spacing: 0.01em;
   list-style: none;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .mission-accordion summary::-webkit-details-marker {
@@ -742,20 +761,26 @@ main {
 }
 
 .mission-accordion summary::after {
-  content: "+";
+  content: "";
   margin-left: auto;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  flex: 0 0 28px;
-  place-items: center;
-  border: 1px solid rgba(200, 149, 53, 0.24);
-  border-radius: 50%;
-  color: var(--gold);
+  width: 11px;
+  height: 11px;
+  flex: 0 0 11px;
+  border-right: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.mission-accordion summary:hover,
+.mission-accordion summary:focus-visible {
+  color: #07182d;
   background: rgba(240, 202, 122, 0.12);
-  font-family: var(--serif);
-  font-size: 20px;
-  line-height: 1;
+}
+
+.mission-accordion summary:focus-visible {
+  outline: 2px solid rgba(200, 149, 53, 0.36);
+  outline-offset: -2px;
 }
 
 .mission-accordion details[open] summary {
@@ -764,7 +789,7 @@ main {
 }
 
 .mission-accordion details[open] summary::after {
-  content: "-";
+  transform: rotate(225deg) translate(-2px, -2px);
 }
 
 .mission-accordion details p {
@@ -2349,7 +2374,7 @@ main {
   }
 
   .hero::before {
-    background-position: 66% center;
+    background-position: 63% center;
     background-size: auto 100%;
   }
 
@@ -2561,7 +2586,7 @@ main {
   }
 
   .hero::before {
-    background-position: 72% center;
+    background-position: 70% center;
   }
 
   .hero::after {
