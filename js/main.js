@@ -78,7 +78,9 @@ const siteNavigation = [
   },
   { label: "Events", href: "events.html" },
   { label: "Book Appointment", href: "book-appointment.html", cta: true },
+  { label: "Live Stream", href: "livestream.html", cta: true, variant: "live" },
   { label: "Give", href: "give.html", cta: true },
+  { label: "Login", href: "#", cta: true, variant: "secondary" },
 ];
 
 function getCurrentPage() {
@@ -98,11 +100,12 @@ function renderHeader() {
   const navMarkup = siteNavigation.map((item, index) => {
     const isActive = isActiveItem(item, currentPage) ? " active" : "";
     const ariaCurrent = item.href === currentPage ? ' aria-current="page"' : "";
+    const ctaClass = item.cta ? ` nav-button${item.variant ? ` nav-button-${item.variant}` : ""}` : "";
 
     if (!item.children) {
       return `
         <li class="nav-item">
-          <a href="${item.href}" class="nav-link${item.cta ? " nav-button" : ""}${isActive}"${ariaCurrent}>${item.label}</a>
+          <a href="${item.href}" class="nav-link${ctaClass}${isActive}"${ariaCurrent}>${item.label}</a>
         </li>
       `;
     }
@@ -190,10 +193,10 @@ function renderFooter() {
 
           <div>
             <h3>Stay Connected</h3>
-            <a href="#">Facebook</a>
-            <a href="#">YouTube</a>
-            <a href="#">Instagram</a>
-            <a href="livestream.html">Live Stream</a>
+            <a href="#"><span class="footer-social-icon" aria-hidden="true">f</span>Facebook</a>
+            <a href="#"><span class="footer-social-icon" aria-hidden="true">YT</span>YouTube</a>
+            <a href="#"><span class="footer-social-icon" aria-hidden="true">IG</span>Instagram</a>
+            <a href="livestream.html"><span class="footer-social-icon footer-social-live" aria-hidden="true">ON</span>Live Stream</a>
           </div>
 
           <div>
