@@ -90,7 +90,7 @@ main {
   min-height: 88px;
   display: flex;
   align-items: center;
-  gap: clamp(10px, 1vw, 18px);
+  gap: clamp(18px, 2.1vw, 38px);
   position: relative;
   z-index: 2;
 }
@@ -142,11 +142,11 @@ main {
 }
 
 .nav-links {
-  flex: 1;
+  flex: 0 1 auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: clamp(6px, 0.58vw, 11px);
+  justify-content: flex-start;
+  gap: clamp(7px, 0.68vw, 13px);
   list-style: none;
 }
 
@@ -162,9 +162,9 @@ main {
 
 .nav-links a {
   color: rgba(255, 255, 255, 0.93);
-  font-size: 10px;
+  font-size: 10.8px;
   font-weight: 950;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.035em;
   text-decoration: none;
   text-transform: uppercase;
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.68);
@@ -258,10 +258,10 @@ main {
 
 .nav-link.nav-button {
   min-height: 36px;
-  padding: 8px 10px;
+  padding: 8px 11px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 7px;
-  font-size: 9.6px;
+  font-size: 9.8px;
   letter-spacing: 0.03em;
   text-shadow: none;
   white-space: nowrap;
@@ -269,8 +269,8 @@ main {
 
 .nav-link.nav-button[href="book-appointment.html"] {
   min-height: 40px;
-  padding: 9px 13px;
-  font-size: 9.8px;
+  padding: 9px 14px;
+  font-size: 10px;
   box-shadow: 0 16px 32px rgba(200, 149, 53, 0.28);
 }
 
@@ -278,7 +278,10 @@ main {
   min-height: 34px;
   padding: 7px 10px;
   font-size: 9.2px;
-  box-shadow: 0 9px 22px rgba(200, 149, 53, 0.18);
+  border-color: rgba(240, 202, 122, 0.46);
+  color: var(--gold-light);
+  background: rgba(4, 18, 36, 0.24);
+  box-shadow: none;
 }
 
 .nav-button,
@@ -315,8 +318,8 @@ main {
 
 .nav-button-secondary {
   color: var(--white);
-  border-color: rgba(255, 255, 255, 0.32);
-  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: transparent;
   box-shadow: none;
 }
 
@@ -355,7 +358,7 @@ main {
   z-index: 0;
   display: block;
   background-image: url("../assets/images/mary-clouds-hero.jpeg");
-  background-position: 49% 34%;
+  background-position: 50% 34%;
   background-repeat: no-repeat;
   background-size: max(104vw, clamp(1500px, 98vw, 2040px)) auto;
   filter: saturate(1.06) brightness(1.04);
@@ -387,9 +390,9 @@ main {
   position: relative;
   z-index: 2;
   width: min(var(--wide-width), calc(100% - var(--page-gutter)));
-  min-height: clamp(900px, 56vw, 1080px);
+  min-height: clamp(1000px, 62vw, 1200px);
   margin: 0 auto;
-  padding: 150px 0 112px;
+  padding: 164px 0 132px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
@@ -1997,10 +2000,10 @@ main {
   }
 }
 
-@media (max-width: 1380px) and (min-width: 1181px) {
+@media (max-width: 1380px) and (min-width: 1241px) {
   .navbar {
     width: min(100% - 24px, 1280px);
-    gap: 10px;
+    gap: 14px;
   }
 
   .brand {
@@ -2027,18 +2030,18 @@ main {
   }
 
   .nav-links {
-    gap: 5px;
+    gap: 6px;
   }
 
   .nav-links a {
-    font-size: 9.2px;
+    font-size: 9.8px;
     letter-spacing: 0.025em;
   }
 
   .nav-link.nav-button {
     min-height: 34px;
     padding: 7px 8px;
-    font-size: 9px;
+    font-size: 9.2px;
   }
 
   .nav-link.nav-button[href="book-appointment.html"] {
@@ -2055,7 +2058,7 @@ main {
   }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1240px) {
   :root {
     --page-width: 1120px;
     --page-gutter: clamp(28px, 4vw, 56px);
@@ -2270,7 +2273,7 @@ main {
   }
 
   .hero-shell {
-    min-height: 820px;
+    min-height: 940px;
   }
 
   .feature-row,
@@ -2367,7 +2370,7 @@ main {
 
   .hero-shell {
     width: min(100% - 32px, 720px);
-    min-height: 790px;
+    min-height: 860px;
     padding: 112px 0 80px;
     grid-template-columns: 1fr;
     align-items: end;
@@ -2606,8 +2609,8 @@ main {
   }
 
   .hero-shell {
-    min-height: 760px;
-    padding-bottom: 64px;
+    min-height: 820px;
+    padding-bottom: 70px;
   }
 
   .mission-card h2 {
