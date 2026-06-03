@@ -90,7 +90,7 @@ main {
   min-height: 88px;
   display: flex;
   align-items: center;
-  gap: clamp(18px, 2.1vw, 38px);
+  gap: clamp(8px, 0.9vw, 16px);
   position: relative;
   z-index: 2;
 }
@@ -146,7 +146,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: clamp(7px, 0.68vw, 13px);
+  gap: clamp(10px, 0.9vw, 18px);
+  margin-left: 0;
   list-style: none;
 }
 
@@ -162,9 +163,9 @@ main {
 
 .nav-links a {
   color: rgba(255, 255, 255, 0.93);
-  font-size: 10.8px;
+  font-size: 11.4px;
   font-weight: 950;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.032em;
   text-decoration: none;
   text-transform: uppercase;
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.68);
@@ -200,8 +201,8 @@ main {
   top: calc(100% + 6px);
   left: 50%;
   z-index: 100;
-  min-width: 246px;
-  padding: 12px;
+  min-width: 292px;
+  padding: 14px;
   border: 1px solid rgba(240, 202, 122, 0.28);
   border-radius: 8px;
   background: rgba(4, 18, 36, 0.98);
@@ -224,23 +225,31 @@ main {
 
 .dropdown-menu a {
   display: block;
-  padding: 12px 14px;
+  min-height: 50px;
+  padding: 13px 18px;
   border-radius: 6px;
   color: rgba(255, 255, 255, 0.84);
-  font-size: 13px;
+  font-size: 16.2px;
+  font-weight: 600;
   letter-spacing: 0;
-  line-height: 1.25;
+  line-height: 1.4;
   text-align: left;
   text-shadow: none;
   text-transform: none;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
   white-space: nowrap;
+}
+
+.dropdown-menu li + li {
+  margin-top: 2px;
 }
 
 .dropdown-menu a:hover,
 .dropdown-menu a:focus,
 .dropdown-menu a.active {
   color: var(--gold-light);
-  background: rgba(240, 202, 122, 0.11);
+  background: rgba(240, 202, 122, 0.17);
+  transform: translateX(2px);
 }
 
 .nav-button,
@@ -257,27 +266,20 @@ main {
 }
 
 .nav-link.nav-button {
-  min-height: 36px;
-  padding: 8px 11px;
+  min-height: 38px;
+  padding: 8px 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 7px;
-  font-size: 9.8px;
+  font-size: 10.4px;
   letter-spacing: 0.03em;
   text-shadow: none;
   white-space: nowrap;
 }
 
-.nav-link.nav-button[href="book-appointment.html"] {
-  min-height: 40px;
-  padding: 9px 14px;
-  font-size: 10px;
-  box-shadow: 0 16px 32px rgba(200, 149, 53, 0.28);
-}
-
 .nav-link.nav-button[href="give.html"] {
-  min-height: 34px;
-  padding: 7px 10px;
-  font-size: 9.2px;
+  min-height: 36px;
+  padding: 8px 12px;
+  font-size: 10px;
   border-color: rgba(240, 202, 122, 0.46);
   color: var(--gold-light);
   background: rgba(4, 18, 36, 0.24);
@@ -294,16 +296,21 @@ main {
 
 .nav-button-live {
   color: var(--white);
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(4, 18, 36, 0.28);
-  box-shadow: 0 10px 22px rgba(4, 18, 36, 0.16);
+  border-color: rgba(240, 202, 122, 0.58);
+  background: rgba(4, 18, 36, 0.44);
+  box-shadow: 0 12px 28px rgba(4, 18, 36, 0.22);
 }
 
-.nav-link.nav-button.nav-button-live,
+.nav-link.nav-button.nav-button-live {
+  min-height: 40px;
+  padding: 9px 14px;
+  font-size: 10.4px;
+}
+
 .nav-link.nav-button.nav-button-secondary {
-  min-height: 34px;
-  padding: 7px 10px;
-  font-size: 9.2px;
+  min-height: 36px;
+  padding: 8px 12px;
+  font-size: 10px;
 }
 
 .nav-button-live::before {
@@ -2003,7 +2010,7 @@ main {
 @media (max-width: 1380px) and (min-width: 1241px) {
   .navbar {
     width: min(100% - 24px, 1280px);
-    gap: 14px;
+    gap: 8px;
   }
 
   .brand {
@@ -2030,31 +2037,27 @@ main {
   }
 
   .nav-links {
-    gap: 6px;
+    gap: 8px;
+    margin-left: -14px;
   }
 
   .nav-links a {
-    font-size: 9.8px;
+    font-size: 10.4px;
     letter-spacing: 0.025em;
   }
 
   .nav-link.nav-button {
-    min-height: 34px;
-    padding: 7px 8px;
-    font-size: 9.2px;
-  }
-
-  .nav-link.nav-button[href="book-appointment.html"] {
-    min-height: 37px;
-    padding: 8px 10px;
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 9.8px;
   }
 
   .nav-link.nav-button[href="give.html"],
   .nav-link.nav-button.nav-button-live,
   .nav-link.nav-button.nav-button-secondary {
-    min-height: 33px;
-    padding-right: 9px;
-    padding-left: 9px;
+    min-height: 35px;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 
@@ -2113,7 +2116,8 @@ main {
     position: fixed;
     inset: 0;
     z-index: -1;
-    padding: 112px 18px 34px;
+    padding: 118px 18px 38px;
+    margin-left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2136,7 +2140,7 @@ main {
   }
 
   .nav-links > li {
-    width: min(460px, calc(100vw - 36px));
+    width: min(500px, calc(100vw - 36px));
     max-width: 100%;
   }
 
@@ -2146,9 +2150,11 @@ main {
 
   .nav-links a {
     display: block;
-    padding: 15px 16px;
+    min-height: 56px;
+    padding: 16px 18px;
     text-align: center;
-    font-size: 18px;
+    font-size: 19px;
+    font-weight: 950;
     line-height: 1.3;
     text-transform: none;
     overflow-wrap: anywhere;
@@ -2166,19 +2172,19 @@ main {
 
   .mobile-submenu-toggle {
     width: 100%;
-    min-height: 52px;
+    min-height: 58px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 15px 16px;
+    padding: 16px 18px;
     border: 0;
     background: transparent;
     color: rgba(255, 255, 255, 0.93);
     cursor: pointer;
     font: inherit;
-    font-size: 18px;
-    font-weight: 900;
+    font-size: 19px;
+    font-weight: 950;
     line-height: 1.3;
     text-align: center;
     overflow-wrap: anywhere;
@@ -2227,9 +2233,9 @@ main {
   }
 
   .has-dropdown.is-open .dropdown-menu {
-    max-height: 620px;
+    max-height: 760px;
     margin: 2px auto 10px;
-    padding: 8px 10px 12px;
+    padding: 10px 12px 14px;
   }
 
   .dropdown-menu li {
@@ -2239,14 +2245,15 @@ main {
 
   .nav-links .dropdown-menu a {
     width: 100%;
-    min-height: 44px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 11px 14px;
+    padding: 13px 16px;
     color: rgba(255, 255, 255, 0.78);
-    font-size: 15px;
-    line-height: 1.25;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.36;
     text-align: center;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -2254,10 +2261,10 @@ main {
 
   .nav-links .nav-button {
     width: 100%;
-    min-height: 48px;
+    min-height: 54px;
     display: flex;
-    margin-top: 12px;
-    padding: 13px 16px;
+    margin-top: 14px;
+    padding: 15px 18px;
     color: var(--navy);
   }
 
@@ -2347,11 +2354,15 @@ main {
   }
 
   .navbar {
-    min-height: 82px;
+    min-height: 86px;
+    gap: 12px;
   }
 
   .brand {
+    flex: 1 1 auto;
     min-width: 0;
+    max-width: calc(100% - 64px);
+    gap: 10px;
   }
 
   .brand img {
@@ -2359,25 +2370,45 @@ main {
     height: 54px;
   }
 
+  .brand-copy {
+    min-width: 0;
+    max-width: 100%;
+    gap: 1px;
+  }
+
   .brand-copy strong {
-    font-size: 28px;
+    font-size: clamp(24px, 5.2vw, 28px);
   }
 
   .brand-copy span,
   .brand-copy em {
-    display: none;
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-copy span {
+    font-size: 10.5px;
+  }
+
+  .brand-copy em {
+    font-size: 8.5px;
+    letter-spacing: 0.15em;
   }
 
   .hero-shell {
     width: min(100% - 32px, 720px);
-    min-height: 860px;
-    padding: 112px 0 80px;
+    min-height: 790px;
+    padding: 104px 0 64px;
     grid-template-columns: 1fr;
     align-items: end;
   }
 
   .hero::before {
-    background-position: 63% center;
+    background-position: 64% center;
     background-size: auto 100%;
   }
 
@@ -2554,6 +2585,45 @@ main {
     --page-gutter: 28px;
   }
 
+  .navbar {
+    min-height: 78px;
+    width: min(100% - 22px, 1220px);
+    gap: 8px;
+  }
+
+  .brand {
+    max-width: calc(100% - 56px);
+    gap: 8px;
+  }
+
+  .brand img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .brand-copy strong {
+    font-size: clamp(21px, 6vw, 24px);
+  }
+
+  .brand-copy span {
+    font-size: 9.5px;
+  }
+
+  .brand-copy em {
+    font-size: 7.7px;
+    letter-spacing: 0.12em;
+  }
+
+  .menu-toggle {
+    width: 48px;
+    height: 46px;
+    flex-basis: 48px;
+  }
+
+  .menu-toggle span {
+    width: 25px;
+  }
+
   .nav-links {
     padding-right: 16px;
     padding-left: 16px;
@@ -2565,13 +2635,14 @@ main {
 
   .nav-links a,
   .mobile-submenu-toggle {
-    font-size: 17px;
+    font-size: 18px;
   }
 
   .nav-links .dropdown-menu a {
-    min-height: 44px;
-    padding: 10px 12px;
-    font-size: 14.5px;
+    min-height: 48px;
+    padding: 12px 14px;
+    font-size: 16px;
+    line-height: 1.34;
   }
 
   .hero-actions,
@@ -2585,11 +2656,19 @@ main {
   }
 
   .hero h1 {
-    font-size: 38px;
+    font-size: 34px;
+  }
+
+  .hero-subheading {
+    font-size: 24px;
+  }
+
+  .hero-lead {
+    font-size: 16px;
   }
 
   .hero::before {
-    background-position: 70% center;
+    background-position: 69% center;
   }
 
   .hero::after {
@@ -2609,8 +2688,9 @@ main {
   }
 
   .hero-shell {
-    min-height: 820px;
-    padding-bottom: 70px;
+    min-height: 720px;
+    padding-top: 92px;
+    padding-bottom: 54px;
   }
 
   .mission-card h2 {
