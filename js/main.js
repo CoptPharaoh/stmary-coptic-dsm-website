@@ -77,7 +77,6 @@ const siteNavigation = [
     ],
   },
   { label: "Events", href: "events.html" },
-  { label: "Book Appointment", href: "book-appointment.html", cta: true },
   { label: "Live Stream", href: "livestream.html", cta: true, variant: "live" },
   { label: "Give", href: "give.html", cta: true },
   { label: "Login", href: "#", cta: true, variant: "secondary" },
