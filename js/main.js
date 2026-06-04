@@ -394,10 +394,183 @@ function initPopeCarousel() {
   });
 }
 
+function initSectionViewer() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll("[data-section-viewer]").forEach((viewer) => {
+    const nav = viewer.querySelector(".page-section-nav nav");
+    const content = viewer.querySelector(".long-page-content");
+    if (!nav || !content) return;
+
+    const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+    const panels = Array.from(content.children).filter((panel) => (
+      panel.matches(".content-section[id]")
+    ));
+
+    if (!links.length || !panels.length) return;
+
+    const panelMap = new Map(panels.map((panel) => [panel.id, panel]));
+    let sectionSelect = null;
+
+    function getLinkTarget(link) {
+      return decodeURIComponent((link.getAttribute("href") || "").replace(/^#/, ""));
+    }
+
+    function updateHash(sectionId) {
+      const nextHash = `#${sectionId}`;
+      if (window.location.hash === nextHash) return;
+      window.history.pushState(null, "", nextHash);
+    }
+
+    function scrollContentIntoView() {
+      const navShell = viewer.querySelector(".page-section-nav");
+      const navHeight = navShell ? navShell.getBoundingClientRect().height : 0;
+      const navTop = navShell ? parseFloat(window.getComputedStyle(navShell).top) || 0 : 0;
+      const gap = 14;
+      const targetTop = window.scrollY + content.getBoundingClientRect().top - navHeight - navTop - gap;
+
+      window.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior: reducedMotion.matches ? "auto" : "smooth",
+      });
+    }
+
+    function showSection(sectionId, options = {}) {
+      const targetPanel = panelMap.get(sectionId) || panels[0];
+      const targetId = targetPanel.id;
+
+      panels.forEach((panel) => {
+        const isActive = panel === targetPanel;
+        panel.hidden = !isActive;
+        panel.classList.toggle("is-active", isActive);
+        panel.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      links.forEach((link) => {
+        const isActive = getLinkTarget(link) === targetId;
+        link.classList.toggle("is-active", isActive);
+        link.setAttribute("aria-selected", String(isActive));
+        link.setAttribute("tabindex", isActive ? "0" : "-1");
+      });
+
+      if (sectionSelect) sectionSelect.value = targetId;
+
+      if (options.updateHash) updateHash(targetId);
+
+      if (options.scrollToContent) {
+        scrollContentIntoView();
+      }
+    }
+
+    function focusRelativeTab(currentLink, direction) {
+      const currentIndex = links.indexOf(currentLink);
+      if (currentIndex < 0) return;
+
+      const nextIndex = (currentIndex + direction + links.length) % links.length;
+      const nextLink = links[nextIndex];
+      nextLink.focus();
+      showSection(getLinkTarget(nextLink), { updateHash: true });
+    }
+
+    viewer.classList.add("section-viewer-ready");
+    nav.setAttribute("role", "tablist");
+
+    if (!viewer.querySelector(".page-section-select")) {
+      const selectWrap = document.createElement("div");
+      selectWrap.className = "page-section-select-wrap";
+
+      sectionSelect = document.createElement("select");
+      sectionSelect.className = "page-section-select";
+      sectionSelect.setAttribute("aria-label", "Choose page section");
+
+      links.forEach((link) => {
+        const targetId = getLinkTarget(link);
+        if (!panelMap.has(targetId)) return;
+
+        const option = document.createElement("option");
+        option.value = targetId;
+        option.textContent = link.textContent.trim();
+        sectionSelect.appendChild(option);
+      });
+
+      sectionSelect.addEventListener("change", () => {
+        showSection(sectionSelect.value, {
+          updateHash: true,
+          scrollToContent: true,
+        });
+      });
+
+      selectWrap.appendChild(sectionSelect);
+      nav.insertAdjacentElement("afterend", selectWrap);
+    } else {
+      sectionSelect = viewer.querySelector(".page-section-select");
+    }
+
+    panels.forEach((panel) => {
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("tabindex", "-1");
+    });
+
+    links.forEach((link) => {
+      const targetId = getLinkTarget(link);
+      const panel = panelMap.get(targetId);
+      if (!panel) return;
+
+      link.setAttribute("role", "tab");
+      link.setAttribute("aria-controls", targetId);
+      if (!link.id) link.id = `${targetId}-tab`;
+      panel.setAttribute("aria-labelledby", link.id);
+
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        showSection(targetId, {
+          updateHash: true,
+          scrollToContent: window.innerWidth <= 1080,
+        });
+      });
+
+      link.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+          event.preventDefault();
+          focusRelativeTab(link, 1);
+        }
+
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          focusRelativeTab(link, -1);
+        }
+
+        if (event.key === "Home") {
+          event.preventDefault();
+          links[0].focus();
+          showSection(getLinkTarget(links[0]), { updateHash: true });
+        }
+
+        if (event.key === "End") {
+          event.preventDefault();
+          const lastLink = links[links.length - 1];
+          lastLink.focus();
+          showSection(getLinkTarget(lastLink), { updateHash: true });
+        }
+      });
+    });
+
+    function showHashSection() {
+      const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      showSection(panelMap.has(hashId) ? hashId : panels[0].id);
+    }
+
+    window.addEventListener("popstate", showHashSection);
+    window.addEventListener("hashchange", showHashSection);
+    showHashSection();
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
   initMobileMenu();
   initDropdownAccessibility();
   initPopeCarousel();
+  initSectionViewer();
 });
