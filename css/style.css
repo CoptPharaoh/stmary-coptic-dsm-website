@@ -2238,6 +2238,323 @@ main {
   line-height: 1.62;
 }
 
+.faith-page-hero .page-hero-inner {
+  min-height: clamp(680px, 50vw, 860px);
+  padding-bottom: 118px;
+}
+
+.faith-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(300px, 0.72fr);
+  gap: clamp(34px, 5.2vw, 82px);
+  align-items: center;
+}
+
+.faith-hero-verse {
+  max-width: 840px;
+}
+
+.faith-hero-subtitle {
+  max-width: 820px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(19px, 1.65vw, 24px);
+  line-height: 1.58;
+  text-shadow: 0 8px 26px rgba(0, 0, 0, 0.36);
+}
+
+.faith-hero-verse p {
+  font-size: clamp(17px, 1.45vw, 22px);
+}
+
+.faith-hero-card {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 430px);
+  overflow: hidden;
+  border: 1px solid rgba(240, 202, 122, 0.34);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(240, 202, 122, 0.28), transparent 34%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03)),
+    url("../assets/images/bg-cross-pattern.png"),
+    linear-gradient(180deg, rgba(10, 35, 64, 0.98), rgba(4, 18, 36, 0.98));
+  background-size: auto, auto, 150px, auto;
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.3);
+  padding: 22px;
+}
+
+.faith-hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(240, 202, 122, 0.2);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.faith-hero-icon {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(240, 202, 122, 0.28), transparent 28%),
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.13), transparent 44%),
+    linear-gradient(180deg, rgba(6, 24, 45, 0.28), rgba(6, 24, 45, 0.72));
+}
+
+.faith-hero-icon span,
+.faith-hero-icon strong {
+  grid-area: 1 / 1;
+  color: rgba(240, 202, 122, 0.92);
+  font-family: var(--serif);
+  font-size: clamp(52px, 8vw, 82px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
+}
+
+.faith-hero-icon strong {
+  transform: translateY(74px);
+}
+
+.faith-hero-image {
+  width: 100%;
+  height: 360px;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.faith-hero-card figcaption {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  padding: 18px 4px 4px;
+  text-align: center;
+}
+
+.faith-hero-card figcaption strong {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 25px;
+  line-height: 1.1;
+}
+
+.faith-hero-card figcaption span {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.faith-content-page {
+  margin-top: -78px;
+}
+
+.faith-intro-card {
+  max-width: 1120px;
+}
+
+.faith-summary-grid,
+.faith-education-grid,
+.faith-practice-grid,
+.explore-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.faith-summary-grid article,
+.faith-education-grid article,
+.faith-practice-grid article,
+.explore-card-grid a {
+  min-width: 0;
+  border: 1px solid rgba(234, 223, 205, 0.9);
+  border-radius: 8px;
+  background: rgba(251, 248, 241, 0.72);
+  padding: 22px;
+}
+
+.faith-summary-grid article span,
+.faith-practice-grid article span,
+.explore-card-grid a span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  color: var(--navy);
+  background: linear-gradient(180deg, var(--gold-light), var(--gold));
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.faith-timeline-section {
+  max-width: 1040px;
+}
+
+.faith-timeline-list {
+  margin-top: 24px;
+}
+
+.faith-timeline-list li {
+  position: relative;
+  padding: 18px 0 18px 24px;
+}
+
+.faith-timeline-list li::before {
+  content: "";
+  position: absolute;
+  top: 27px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(240, 202, 122, 0.14);
+}
+
+.faith-mark-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.72fr);
+  gap: clamp(22px, 3.2vw, 40px);
+  align-items: center;
+}
+
+.faith-mark-card {
+  min-width: 0;
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.1);
+}
+
+.faith-mark-card img {
+  width: 100%;
+  min-height: 360px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.faith-education-grid,
+.faith-practice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.faith-practice-grid article span {
+  color: var(--gold-light);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(240, 202, 122, 0.2), transparent 58%),
+    var(--navy);
+}
+
+.creed-section {
+  max-width: 1080px;
+}
+
+.creed-panel {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.creed-panel article {
+  border: 1px solid rgba(200, 149, 53, 0.22);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 96% 0%, rgba(240, 202, 122, 0.12), transparent 28%),
+    rgba(255, 255, 255, 0.72);
+  padding: clamp(22px, 3vw, 32px);
+}
+
+.creed-panel blockquote {
+  margin: 12px 0 14px;
+  padding: 18px 20px;
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  background: rgba(251, 248, 241, 0.9);
+}
+
+.creed-panel blockquote p {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: clamp(18px, 1.65vw, 23px);
+  line-height: 1.48;
+}
+
+.faith-audio-card {
+  align-items: stretch;
+  border-color: rgba(200, 149, 53, 0.22);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(240, 202, 122, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.76);
+}
+
+.faith-resource-frame {
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid rgba(240, 202, 122, 0.24);
+  border-radius: 8px;
+  background: var(--navy);
+}
+
+.faith-resource-frame iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  display: block;
+  border: 0;
+}
+
+.faith-explore-panel {
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.faith-explore-panel .section-label {
+  color: var(--gold-light);
+}
+
+.faith-explore-panel p {
+  max-width: 860px;
+}
+
+.explore-card-grid {
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.explore-card-grid a {
+  display: grid;
+  gap: 8px;
+  color: var(--white);
+  border-color: rgba(240, 202, 122, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+  text-decoration: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.explore-card-grid a:hover,
+.explore-card-grid a:focus {
+  border-color: rgba(240, 202, 122, 0.48);
+  background: rgba(240, 202, 122, 0.1);
+  transform: translateY(-2px);
+}
+
+.explore-card-grid a strong {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.15;
+}
+
+.explore-card-grid a small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .pope-carousel {
   display: grid;
   gap: 16px;
@@ -3256,11 +3573,11 @@ main {
   }
 
   .hero h1 {
-    font-size: 34px;
+    font-size: clamp(32px, 8.5vw, 36px);
   }
 
   .hero-subheading {
-    font-size: 24px;
+    font-size: clamp(22px, 6vw, 25px);
   }
 
   .hero-lead {
@@ -3268,29 +3585,67 @@ main {
   }
 
   .hero::before {
-    background-position: 69% center;
+    background-position: 80% 92px;
+    background-size: auto clamp(455px, 116vw, 500px);
+    filter: saturate(1.08) brightness(1.08);
   }
 
   .hero::after {
     background:
       linear-gradient(
         180deg,
-        rgba(5, 13, 27, 0.84) 0%,
-        rgba(5, 13, 27, 0.5) 42%,
-        rgba(5, 13, 27, 0.78) 100%
+        rgba(5, 13, 27, 0.42) 0%,
+        rgba(5, 13, 27, 0.13) 170px,
+        rgba(5, 13, 27, 0.06) 325px,
+        rgba(5, 13, 27, 0.56) 455px,
+        rgba(5, 13, 27, 0.94) 560px,
+        #06182d 100%
       ),
       linear-gradient(
         90deg,
-        rgba(5, 13, 27, 0.82) 0%,
-        rgba(5, 13, 27, 0.58) 62%,
-        rgba(5, 13, 27, 0.24) 100%
+        rgba(5, 13, 27, 0.22) 0%,
+        rgba(5, 13, 27, 0.04) 52%,
+        rgba(5, 13, 27, 0.08) 100%
       );
   }
 
   .hero-shell {
-    min-height: 720px;
-    padding-top: 122px;
-    padding-bottom: 48px;
+    min-height: 850px;
+    padding-top: 438px;
+    padding-bottom: 38px;
+    align-items: start;
+  }
+
+  .hero-content {
+    position: relative;
+    width: 100%;
+    padding: 20px 16px 18px;
+    border: 1px solid rgba(240, 202, 122, 0.28);
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(8, 31, 58, 0.94), rgba(4, 18, 36, 0.98));
+    box-shadow:
+      0 -22px 54px rgba(4, 18, 36, 0.34),
+      0 18px 40px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.72);
+  }
+
+  .hero-content::before {
+    content: "";
+    display: block;
+    width: min(160px, 52%);
+    height: 2px;
+    margin: 0 auto 14px;
+    background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  }
+
+  .hero-content .eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .hero-actions {
+    gap: 11px;
+    margin-top: 18px;
   }
 
   .mission-card h2 {
@@ -3612,5 +3967,124 @@ main {
 @media (max-width: 380px) {
   .page-section-nav nav {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1180px) {
+  .faith-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .faith-hero-card {
+    justify-self: start;
+    width: min(100%, 520px);
+  }
+
+  .faith-summary-grid,
+  .explore-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .faith-page-hero .page-hero-inner {
+    min-height: auto;
+    padding-bottom: 84px;
+  }
+
+  .faith-hero-grid {
+    gap: 28px;
+  }
+
+  .faith-hero-card {
+    justify-self: center;
+    max-width: 380px;
+    padding: 16px;
+  }
+
+  .faith-mark-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .faith-mark-card {
+    order: -1;
+  }
+
+  .faith-hero-icon {
+    min-height: 260px;
+  }
+
+  .faith-hero-image {
+    height: 260px;
+  }
+
+  .faith-summary-grid,
+  .faith-education-grid,
+  .faith-practice-grid,
+  .explore-card-grid,
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .faith-timeline-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-video-card,
+  .faith-audio-card {
+    grid-template-columns: 1fr;
+  }
+
+  .faith-resource-frame,
+  .faith-resource-frame iframe {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 600px) {
+  .faith-hero-card {
+    max-width: 310px;
+    padding: 10px;
+  }
+
+  .faith-hero-icon {
+    min-height: 220px;
+  }
+
+  .faith-hero-image {
+    height: 220px;
+  }
+
+  .faith-hero-icon span,
+  .faith-hero-icon strong {
+    font-size: 48px;
+  }
+
+  .faith-hero-icon strong {
+    transform: translateY(54px);
+  }
+
+  .faith-hero-card figcaption strong {
+    font-size: 22px;
+  }
+
+  .faith-summary-grid article,
+  .faith-education-grid article,
+  .faith-practice-grid article,
+  .explore-card-grid a {
+    padding: 18px;
+  }
+
+  .creed-panel blockquote {
+    padding: 16px;
+  }
+
+  .creed-panel blockquote p {
+    font-size: 17px;
+  }
+
+  .faith-resource-frame,
+  .faith-resource-frame iframe {
+    min-height: 280px;
   }
 }
