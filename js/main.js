@@ -410,7 +410,9 @@ function initSectionViewer() {
     if (!links.length || !panels.length) return;
 
     const panelMap = new Map(panels.map((panel) => [panel.id, panel]));
-    let sectionSelect = null;
+    let sectionToggle = null;
+    let sectionMenu = null;
+    let sectionOptions = [];
 
     function getLinkTarget(link) {
       return decodeURIComponent((link.getAttribute("href") || "").replace(/^#/, ""));
@@ -420,6 +422,26 @@ function initSectionViewer() {
       const nextHash = `#${sectionId}`;
       if (window.location.hash === nextHash) return;
       window.history.pushState(null, "", nextHash);
+    }
+
+    function setMobileMenuOpen(isOpen) {
+      if (!sectionToggle || !sectionMenu) return;
+
+      sectionToggle.setAttribute("aria-expanded", String(isOpen));
+      sectionMenu.hidden = !isOpen;
+    }
+
+    function updateMobileSectionControl(targetId) {
+      if (!sectionToggle) return;
+
+      const activeLink = links.find((link) => getLinkTarget(link) === targetId);
+      if (activeLink) sectionToggle.textContent = activeLink.textContent.trim();
+
+      sectionOptions.forEach((option) => {
+        const isActive = option.dataset.sectionTarget === targetId;
+        option.classList.toggle("is-active", isActive);
+        option.setAttribute("aria-selected", String(isActive));
+      });
     }
 
     function scrollContentIntoView() {
@@ -453,7 +475,7 @@ function initSectionViewer() {
         link.setAttribute("tabindex", isActive ? "0" : "-1");
       });
 
-      if (sectionSelect) sectionSelect.value = targetId;
+      updateMobileSectionControl(targetId);
 
       if (options.updateHash) updateHash(targetId);
 
@@ -479,31 +501,96 @@ function initSectionViewer() {
       const selectWrap = document.createElement("div");
       selectWrap.className = "page-section-select-wrap";
 
-      sectionSelect = document.createElement("select");
-      sectionSelect.className = "page-section-select";
-      sectionSelect.setAttribute("aria-label", "Choose page section");
+      const menuId = `${panels[0].id}-section-menu`;
+
+      sectionToggle = document.createElement("button");
+      sectionToggle.type = "button";
+      sectionToggle.className = "page-section-select";
+      sectionToggle.setAttribute("aria-controls", menuId);
+      sectionToggle.setAttribute("aria-expanded", "false");
+      sectionToggle.setAttribute("aria-haspopup", "listbox");
+
+      sectionMenu = document.createElement("div");
+      sectionMenu.className = "page-section-select-menu";
+      sectionMenu.id = menuId;
+      sectionMenu.hidden = true;
+      sectionMenu.setAttribute("role", "listbox");
+      sectionMenu.setAttribute("aria-label", "Choose page section");
 
       links.forEach((link) => {
         const targetId = getLinkTarget(link);
         if (!panelMap.has(targetId)) return;
 
-        const option = document.createElement("option");
-        option.value = targetId;
+        const option = document.createElement("button");
+        option.type = "button";
+        option.className = "page-section-select-option";
+        option.dataset.sectionTarget = targetId;
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", "false");
         option.textContent = link.textContent.trim();
-        sectionSelect.appendChild(option);
-      });
 
-      sectionSelect.addEventListener("change", () => {
-        showSection(sectionSelect.value, {
-          updateHash: true,
-          scrollToContent: true,
+        option.addEventListener("click", () => {
+          setMobileMenuOpen(false);
+          showSection(targetId, {
+            updateHash: true,
+            scrollToContent: true,
+          });
+          sectionToggle.focus({ preventScroll: true });
         });
+
+        option.addEventListener("keydown", (event) => {
+          const currentIndex = sectionOptions.indexOf(option);
+
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            sectionOptions[(currentIndex + 1) % sectionOptions.length]?.focus();
+          }
+
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            sectionOptions[(currentIndex - 1 + sectionOptions.length) % sectionOptions.length]?.focus();
+          }
+
+          if (event.key === "Escape") {
+            event.preventDefault();
+            setMobileMenuOpen(false);
+            sectionToggle.focus({ preventScroll: true });
+          }
+        });
+
+        sectionMenu.appendChild(option);
+        sectionOptions.push(option);
       });
 
-      selectWrap.appendChild(sectionSelect);
+      sectionToggle.addEventListener("click", () => {
+        setMobileMenuOpen(sectionMenu.hidden);
+      });
+
+      sectionToggle.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          setMobileMenuOpen(true);
+          const activeOption = sectionOptions.find((option) => option.classList.contains("is-active"));
+          (activeOption || sectionOptions[0])?.focus();
+        }
+
+        if (event.key === "Escape") {
+          event.preventDefault();
+          setMobileMenuOpen(false);
+        }
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!selectWrap.contains(event.target)) setMobileMenuOpen(false);
+      });
+
+      selectWrap.appendChild(sectionToggle);
+      selectWrap.appendChild(sectionMenu);
       nav.insertAdjacentElement("afterend", selectWrap);
     } else {
-      sectionSelect = viewer.querySelector(".page-section-select");
+      sectionToggle = viewer.querySelector(".page-section-select");
+      sectionMenu = viewer.querySelector(".page-section-select-menu");
+      sectionOptions = Array.from(viewer.querySelectorAll(".page-section-select-option"));
     }
 
     panels.forEach((panel) => {
