@@ -394,10 +394,270 @@ function initPopeCarousel() {
   });
 }
 
+function initSectionViewer() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll("[data-section-viewer]").forEach((viewer) => {
+    const nav = viewer.querySelector(".page-section-nav nav");
+    const content = viewer.querySelector(".long-page-content");
+    if (!nav || !content) return;
+
+    const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+    const panels = Array.from(content.children).filter((panel) => (
+      panel.matches(".content-section[id]")
+    ));
+
+    if (!links.length || !panels.length) return;
+
+    const panelMap = new Map(panels.map((panel) => [panel.id, panel]));
+    let sectionToggle = null;
+    let sectionMenu = null;
+    let sectionOptions = [];
+
+    function getLinkTarget(link) {
+      return decodeURIComponent((link.getAttribute("href") || "").replace(/^#/, ""));
+    }
+
+    function updateHash(sectionId) {
+      const nextHash = `#${sectionId}`;
+      if (window.location.hash === nextHash) return;
+      window.history.pushState(null, "", nextHash);
+    }
+
+    function setMobileMenuOpen(isOpen) {
+      if (!sectionToggle || !sectionMenu) return;
+
+      sectionToggle.setAttribute("aria-expanded", String(isOpen));
+      sectionMenu.hidden = !isOpen;
+    }
+
+    function updateMobileSectionControl(targetId) {
+      if (!sectionToggle) return;
+
+      const activeLink = links.find((link) => getLinkTarget(link) === targetId);
+      if (activeLink) sectionToggle.textContent = activeLink.textContent.trim();
+
+      sectionOptions.forEach((option) => {
+        const isActive = option.dataset.sectionTarget === targetId;
+        option.classList.toggle("is-active", isActive);
+        option.setAttribute("aria-selected", String(isActive));
+      });
+    }
+
+    function scrollContentIntoView() {
+      const navShell = viewer.querySelector(".page-section-nav");
+      const navHeight = navShell ? navShell.getBoundingClientRect().height : 0;
+      const navTop = navShell ? parseFloat(window.getComputedStyle(navShell).top) || 0 : 0;
+      const gap = 14;
+      const targetTop = window.scrollY + content.getBoundingClientRect().top - navHeight - navTop - gap;
+
+      window.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior: reducedMotion.matches ? "auto" : "smooth",
+      });
+    }
+
+    function showSection(sectionId, options = {}) {
+      const targetPanel = panelMap.get(sectionId) || panels[0];
+      const targetId = targetPanel.id;
+
+      panels.forEach((panel) => {
+        const isActive = panel === targetPanel;
+        panel.hidden = !isActive;
+        panel.classList.toggle("is-active", isActive);
+        panel.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      links.forEach((link) => {
+        const isActive = getLinkTarget(link) === targetId;
+        link.classList.toggle("is-active", isActive);
+        link.setAttribute("aria-selected", String(isActive));
+        link.setAttribute("tabindex", isActive ? "0" : "-1");
+      });
+
+      updateMobileSectionControl(targetId);
+
+      if (options.updateHash) updateHash(targetId);
+
+      if (options.scrollToContent) {
+        scrollContentIntoView();
+      }
+    }
+
+    function focusRelativeTab(currentLink, direction) {
+      const currentIndex = links.indexOf(currentLink);
+      if (currentIndex < 0) return;
+
+      const nextIndex = (currentIndex + direction + links.length) % links.length;
+      const nextLink = links[nextIndex];
+      nextLink.focus();
+      showSection(getLinkTarget(nextLink), { updateHash: true });
+    }
+
+    viewer.classList.add("section-viewer-ready");
+    nav.setAttribute("role", "tablist");
+
+    if (!viewer.querySelector(".page-section-select")) {
+      const selectWrap = document.createElement("div");
+      selectWrap.className = "page-section-select-wrap";
+
+      const menuId = `${panels[0].id}-section-menu`;
+
+      sectionToggle = document.createElement("button");
+      sectionToggle.type = "button";
+      sectionToggle.className = "page-section-select";
+      sectionToggle.setAttribute("aria-controls", menuId);
+      sectionToggle.setAttribute("aria-expanded", "false");
+      sectionToggle.setAttribute("aria-haspopup", "listbox");
+
+      sectionMenu = document.createElement("div");
+      sectionMenu.className = "page-section-select-menu";
+      sectionMenu.id = menuId;
+      sectionMenu.hidden = true;
+      sectionMenu.setAttribute("role", "listbox");
+      sectionMenu.setAttribute("aria-label", "Choose page section");
+
+      links.forEach((link) => {
+        const targetId = getLinkTarget(link);
+        if (!panelMap.has(targetId)) return;
+
+        const option = document.createElement("button");
+        option.type = "button";
+        option.className = "page-section-select-option";
+        option.dataset.sectionTarget = targetId;
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", "false");
+        option.textContent = link.textContent.trim();
+
+        option.addEventListener("click", () => {
+          setMobileMenuOpen(false);
+          showSection(targetId, {
+            updateHash: true,
+            scrollToContent: true,
+          });
+          sectionToggle.focus({ preventScroll: true });
+        });
+
+        option.addEventListener("keydown", (event) => {
+          const currentIndex = sectionOptions.indexOf(option);
+
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            sectionOptions[(currentIndex + 1) % sectionOptions.length]?.focus();
+          }
+
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            sectionOptions[(currentIndex - 1 + sectionOptions.length) % sectionOptions.length]?.focus();
+          }
+
+          if (event.key === "Escape") {
+            event.preventDefault();
+            setMobileMenuOpen(false);
+            sectionToggle.focus({ preventScroll: true });
+          }
+        });
+
+        sectionMenu.appendChild(option);
+        sectionOptions.push(option);
+      });
+
+      sectionToggle.addEventListener("click", () => {
+        setMobileMenuOpen(sectionMenu.hidden);
+      });
+
+      sectionToggle.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          setMobileMenuOpen(true);
+          const activeOption = sectionOptions.find((option) => option.classList.contains("is-active"));
+          (activeOption || sectionOptions[0])?.focus();
+        }
+
+        if (event.key === "Escape") {
+          event.preventDefault();
+          setMobileMenuOpen(false);
+        }
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!selectWrap.contains(event.target)) setMobileMenuOpen(false);
+      });
+
+      selectWrap.appendChild(sectionToggle);
+      selectWrap.appendChild(sectionMenu);
+      nav.insertAdjacentElement("afterend", selectWrap);
+    } else {
+      sectionToggle = viewer.querySelector(".page-section-select");
+      sectionMenu = viewer.querySelector(".page-section-select-menu");
+      sectionOptions = Array.from(viewer.querySelectorAll(".page-section-select-option"));
+    }
+
+    panels.forEach((panel) => {
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("tabindex", "-1");
+    });
+
+    links.forEach((link) => {
+      const targetId = getLinkTarget(link);
+      const panel = panelMap.get(targetId);
+      if (!panel) return;
+
+      link.setAttribute("role", "tab");
+      link.setAttribute("aria-controls", targetId);
+      if (!link.id) link.id = `${targetId}-tab`;
+      panel.setAttribute("aria-labelledby", link.id);
+
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        showSection(targetId, {
+          updateHash: true,
+          scrollToContent: window.innerWidth <= 1080,
+        });
+      });
+
+      link.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+          event.preventDefault();
+          focusRelativeTab(link, 1);
+        }
+
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          focusRelativeTab(link, -1);
+        }
+
+        if (event.key === "Home") {
+          event.preventDefault();
+          links[0].focus();
+          showSection(getLinkTarget(links[0]), { updateHash: true });
+        }
+
+        if (event.key === "End") {
+          event.preventDefault();
+          const lastLink = links[links.length - 1];
+          lastLink.focus();
+          showSection(getLinkTarget(lastLink), { updateHash: true });
+        }
+      });
+    });
+
+    function showHashSection() {
+      const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      showSection(panelMap.has(hashId) ? hashId : panels[0].id);
+    }
+
+    window.addEventListener("popstate", showHashSection);
+    window.addEventListener("hashchange", showHashSection);
+    showHashSection();
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
   initMobileMenu();
   initDropdownAccessibility();
   initPopeCarousel();
+  initSectionViewer();
 });
