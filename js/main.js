@@ -8,7 +8,7 @@ const siteNavigation = [
       { label: "Welcome", href: "about-welcome.html" },
       { label: "Clergy", href: "clergy.html" },
       { label: "Our Pope", href: "our-pope.html" },
-      { label: "Our Patron Saint", href: "our-patron-saint.html" },
+      { label: "Our Patron Saint", href: "st-mary-theotokos.html" },
       { label: "Church History", href: "church-history.html" },
       { label: "Contact", href: "contact.html" },
     ],
@@ -261,12 +261,12 @@ function initMobileMenu() {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 1180) closeMenu();
+    if (window.innerWidth > 1240) closeMenu();
   });
 }
 
 function initDropdownAccessibility() {
-  const desktopQuery = window.matchMedia("(min-width: 1181px)");
+  const desktopQuery = window.matchMedia("(min-width: 1241px)");
 
   document.querySelectorAll(".has-dropdown").forEach((item) => {
     const parentLink = item.querySelector(".nav-parent");
