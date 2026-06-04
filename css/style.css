@@ -2316,6 +2316,10 @@ main {
     --page-gutter: clamp(28px, 4vw, 56px);
   }
 
+  .site-header {
+    z-index: 1000;
+  }
+
   .navbar {
     width: min(100% - 28px, 1220px);
   }
@@ -2326,6 +2330,8 @@ main {
   }
 
   .menu-toggle {
+    position: relative;
+    z-index: 120;
     display: inline-flex;
     width: 52px;
     height: 50px;
@@ -2364,8 +2370,12 @@ main {
   .nav-links {
     position: fixed;
     inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
     z-index: -1;
-    padding: 118px 18px 38px;
+    padding: calc(118px + env(safe-area-inset-top)) 18px calc(38px + env(safe-area-inset-bottom));
     margin-left: 0;
     display: flex;
     flex-direction: column;
@@ -2374,6 +2384,8 @@ main {
     gap: 0;
     overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     background: rgba(4, 18, 36, 0.98);
     opacity: 0;
     visibility: hidden;
@@ -2382,10 +2394,16 @@ main {
   }
 
   body.menu-open .nav-links {
-    z-index: 19;
+    z-index: 100;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+  }
+
+  body.menu-open .brand,
+  body.menu-open .menu-toggle {
+    position: relative;
+    z-index: 120;
   }
 
   .nav-links > li {
@@ -2604,9 +2622,8 @@ main {
     padding: 7px 9px;
     border: 1px solid rgba(240, 202, 122, 0.22);
     border-radius: 10px;
-    background: rgba(4, 18, 36, 0.62);
+    background: rgba(4, 18, 36, 0.78);
     box-shadow: 0 16px 38px rgba(0, 0, 0, 0.22);
-    backdrop-filter: blur(10px);
   }
 
   .brand {
