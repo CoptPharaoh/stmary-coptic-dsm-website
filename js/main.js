@@ -34,7 +34,8 @@ const siteNavigation = [
       { label: "Baptism", href: "baptism.html" },
       { label: "Chrismation", href: "chrismation.html" },
       { label: "Eucharist", href: "eucharist.html" },
-      { label: "Repentance & Confession", href: "repentance-confession.html" },
+      { label: "Confession", href: "confession.html" },
+      { label: "Repentance", href: "repentance.html" },
       { label: "Marriage", href: "marriage.html" },
       { label: "Priesthood", href: "priesthood.html" },
       { label: "Unction of the Sick", href: "unction-sick.html" },
@@ -57,6 +58,7 @@ const siteNavigation = [
     href: "resources.html",
     children: [
       { label: "Resources Overview", href: "resources.html" },
+      { label: "Books", href: "books.html" },
       { label: "Bible Studies", href: "bible-studies.html" },
       { label: "Sermons", href: "sermons.html" },
       { label: "Livestream", href: "livestream.html" },
