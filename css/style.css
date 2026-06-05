@@ -116,14 +116,15 @@ main {
 
 .brand-copy {
   display: grid;
-  gap: 2px;
+  gap: 3px;
+  line-height: 1.08;
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.55);
 }
 
 .brand-copy strong {
   font-family: var(--serif);
   font-size: 31px;
-  line-height: 0.9;
+  line-height: 1;
 }
 
 .brand-copy span {
@@ -131,6 +132,7 @@ main {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
+  line-height: 1.16;
 }
 
 .brand-copy em {
@@ -138,7 +140,8 @@ main {
   font-size: 10px;
   font-style: normal;
   font-weight: 800;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
+  line-height: 1.16;
   text-transform: uppercase;
 }
 
@@ -1664,6 +1667,16 @@ main {
   background: rgba(255, 255, 255, 0.62);
 }
 
+.content-accordion[open]:only-of-type summary,
+.pope-accordion[open] summary {
+  grid-template-columns: auto 1fr;
+}
+
+.content-accordion[open]:only-of-type summary::after,
+.pope-accordion[open] summary::after {
+  display: none;
+}
+
 .content-accordion summary span {
   width: 40px;
   height: 40px;
@@ -1983,12 +1996,63 @@ main {
   margin: 0;
 }
 
+.belief-video-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
 .resource-card {
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
   background: rgba(255, 255, 255, 0.72);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.book-card {
+  justify-content: space-between;
+  min-height: 250px;
+  border-color: rgba(200, 149, 53, 0.22);
+  background:
+    radial-gradient(circle at 96% 0%, rgba(240, 202, 122, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.78);
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.09);
+}
+
+.book-meta {
+  width: fit-content;
+  margin-bottom: 10px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: var(--gold-light);
+  background: var(--navy);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+  margin-top: auto;
+}
+
+.book-empty-card {
+  margin-top: 22px;
+}
+
+.belief-video-card {
+  border-color: rgba(200, 149, 53, 0.22);
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.1);
 }
 
 .featured-video-card {
@@ -2270,26 +2334,19 @@ main {
   position: relative;
   justify-self: end;
   width: min(100%, 430px);
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   border: 1px solid rgba(240, 202, 122, 0.34);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 50% 24%, rgba(240, 202, 122, 0.28), transparent 34%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03)),
-    url("../assets/images/bg-cross-pattern.png"),
-    linear-gradient(180deg, rgba(10, 35, 64, 0.98), rgba(4, 18, 36, 0.98));
-  background-size: auto, auto, 150px, auto;
+    linear-gradient(180deg, rgba(251, 248, 241, 0.14), rgba(251, 248, 241, 0.06)),
+    rgba(6, 24, 45, 0.42);
   box-shadow: 0 30px 72px rgba(0, 0, 0, 0.3);
-  padding: 22px;
+  padding: 12px;
 }
 
 .faith-hero-card::before {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  border: 1px solid rgba(240, 202, 122, 0.2);
-  border-radius: 8px;
-  pointer-events: none;
+  display: none;
 }
 
 .faith-hero-icon {
@@ -2320,10 +2377,10 @@ main {
 
 .faith-hero-image {
   width: 100%;
-  height: 360px;
+  height: 100%;
   display: block;
-  border-radius: 8px;
-  object-fit: cover;
+  border-radius: 6px;
+  object-fit: contain;
   object-position: center;
 }
 
@@ -2347,6 +2404,85 @@ main {
   color: rgba(255, 255, 255, 0.74);
   font-size: 14px;
   line-height: 1.55;
+}
+
+.baptism-page-hero .page-hero-inner {
+  min-height: clamp(700px, 54vw, 920px);
+}
+
+.baptism-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.58fr);
+  gap: clamp(34px, 5vw, 76px);
+  align-items: center;
+}
+
+.baptism-hero-subtitle {
+  max-width: 780px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(19px, 1.65vw, 24px);
+  line-height: 1.58;
+  text-shadow: 0 8px 26px rgba(0, 0, 0, 0.36);
+}
+
+.baptism-hero-verse {
+  max-width: 760px;
+}
+
+.baptism-hero-card {
+  justify-self: end;
+  width: min(100%, 430px);
+  max-height: min(680px, 72vh);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(240, 202, 122, 0.38);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(251, 248, 241, 0.16), rgba(251, 248, 241, 0.08)),
+    rgba(6, 24, 45, 0.5);
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.3);
+  padding: 12px;
+}
+
+.baptism-hero-card img {
+  width: 100%;
+  height: 100%;
+  max-height: calc(min(680px, 72vh) - 24px);
+  display: block;
+  border-radius: 6px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.confession-page-hero .page-hero-inner {
+  min-height: clamp(680px, 50vw, 860px);
+}
+
+.confession-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.72fr);
+  gap: clamp(34px, 5.2vw, 82px);
+  align-items: center;
+}
+
+.confession-hero-card {
+  display: grid;
+  gap: 18px;
+  justify-self: end;
+  width: min(100%, 500px);
+  padding: clamp(18px, 2.4vw, 26px);
+  border: 1px solid rgba(240, 202, 122, 0.28);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 96% 4%, rgba(240, 202, 122, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035));
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
+}
+
+.confession-hero-verse {
+  margin: 0;
+  max-width: none;
 }
 
 .faith-content-page {
@@ -2395,6 +2531,93 @@ main {
 
 .faith-timeline-section {
   max-width: 1040px;
+}
+
+.church-timeline-section {
+  max-width: 1120px;
+  overflow: hidden;
+}
+
+.church-timeline-list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 26px;
+  list-style: none;
+}
+
+.church-timeline-list::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(200, 149, 53, 0.45), transparent);
+}
+
+.church-timeline-list li {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  border: 1px solid rgba(200, 149, 53, 0.22);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 96% 0%, rgba(240, 202, 122, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.76);
+  padding: 20px;
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.09);
+}
+
+.church-timeline-list li::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: -9px;
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(251, 248, 241, 0.95);
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(240, 202, 122, 0.16);
+}
+
+.church-timeline-list li:nth-child(odd)::before {
+  left: auto;
+  right: -9px;
+}
+
+.church-timeline-list time {
+  display: grid;
+  place-items: center;
+  min-height: 58px;
+  border-radius: 8px;
+  color: var(--gold-light);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(240, 202, 122, 0.2), transparent 62%),
+    var(--navy);
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.church-timeline-list h3 {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: clamp(21px, 1.85vw, 27px);
+  line-height: 1.15;
+}
+
+.church-timeline-list p {
+  margin-top: 8px;
+  color: var(--muted);
+  line-height: 1.62;
 }
 
 .faith-timeline-list {
@@ -2483,12 +2706,98 @@ main {
   line-height: 1.48;
 }
 
-.faith-audio-card {
+.faith-audio-card,
+.faith-video-card {
   align-items: stretch;
   border-color: rgba(200, 149, 53, 0.22);
   background:
     radial-gradient(circle at 92% 12%, rgba(240, 202, 122, 0.12), transparent 32%),
     rgba(255, 255, 255, 0.76);
+}
+
+.prayer-audio-card {
+  border-color: rgba(200, 149, 53, 0.22);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(240, 202, 122, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.76);
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.1);
+}
+
+.prayer-audio-card audio {
+  width: 100%;
+  display: block;
+  margin-top: 8px;
+  accent-color: var(--gold);
+}
+
+.resource-subheading {
+  margin-top: clamp(28px, 4vw, 42px);
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: clamp(25px, 2.4vw, 34px);
+  line-height: 1.12;
+}
+
+.audio-resource-card {
+  border-color: rgba(200, 149, 53, 0.22);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(240, 202, 122, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.76);
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.1);
+}
+
+.confession-prayer-section {
+  max-width: 1120px;
+}
+
+.confession-prayer-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.confession-prayer-card {
+  border: 1px solid rgba(200, 149, 53, 0.22);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 96% 8%, rgba(240, 202, 122, 0.1), transparent 30%),
+    rgba(251, 248, 241, 0.86);
+  box-shadow: 0 18px 42px rgba(6, 24, 45, 0.09);
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.confession-prayer-card h3 {
+  margin-bottom: 14px;
+}
+
+.prayer-text-card {
+  display: grid;
+  gap: 22px;
+  border-color: rgba(200, 149, 53, 0.24);
+  background:
+    radial-gradient(circle at 96% 8%, rgba(240, 202, 122, 0.1), transparent 30%),
+    rgba(251, 248, 241, 0.84);
+}
+
+.prayer-text-group {
+  display: grid;
+  gap: 10px;
+  padding-left: 18px;
+  border-left: 4px solid var(--gold);
+}
+
+.prayer-text-card .section-label {
+  margin: 0;
+}
+
+.prayer-text-card h3 {
+  margin-bottom: 2px;
+}
+
+.prayer-text-card p {
+  margin: 0;
+  color: var(--navy);
+  line-height: 1.72;
 }
 
 .faith-resource-frame {
@@ -3227,7 +3536,7 @@ main {
   .brand-copy {
     min-width: 0;
     max-width: 100%;
-    gap: 1px;
+    gap: 2px;
   }
 
   .brand-copy strong {
@@ -3241,7 +3550,7 @@ main {
     display: block;
     max-width: 100%;
     overflow: hidden;
-    line-height: 1.05;
+    line-height: 1.12;
     text-overflow: ellipsis;
     text-shadow: 0 4px 16px rgba(0, 0, 0, 0.82);
     white-space: nowrap;
@@ -3936,6 +4245,16 @@ main {
     height: 10px;
   }
 
+  .content-accordion[open]:only-of-type summary,
+  .pope-accordion[open] summary {
+    grid-template-columns: auto 1fr;
+  }
+
+  .content-accordion[open]:only-of-type summary::after,
+  .pope-accordion[open] summary::after {
+    display: none;
+  }
+
   .pope-accordion > div {
     padding: 18px;
   }
@@ -3971,13 +4290,30 @@ main {
 }
 
 @media (max-width: 1180px) {
-  .faith-hero-grid {
+  .faith-hero-grid,
+  .confession-hero-grid,
+  .baptism-hero-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .faith-hero-card {
     justify-self: start;
     width: min(100%, 520px);
+  }
+
+  .baptism-hero-card {
+    justify-self: start;
+    width: min(100%, 440px);
+    max-height: 620px;
+  }
+
+  .baptism-hero-card img {
+    max-height: 596px;
+  }
+
+  .confession-hero-card {
+    justify-self: start;
+    width: min(100%, 620px);
   }
 
   .faith-summary-grid,
@@ -3992,14 +4328,40 @@ main {
     padding-bottom: 84px;
   }
 
-  .faith-hero-grid {
+  .confession-page-hero .page-hero-inner {
+    min-height: auto;
+    padding-bottom: 84px;
+  }
+
+  .baptism-page-hero .page-hero-inner {
+    min-height: auto;
+    padding-bottom: 84px;
+  }
+
+  .faith-hero-grid,
+  .confession-hero-grid,
+  .baptism-hero-grid {
     gap: 28px;
   }
 
   .faith-hero-card {
     justify-self: center;
-    max-width: 380px;
-    padding: 16px;
+    max-width: 430px;
+  }
+
+  .baptism-hero-card {
+    justify-self: center;
+    width: min(100%, 390px);
+    max-height: 560px;
+  }
+
+  .baptism-hero-card img {
+    max-height: 536px;
+  }
+
+  .confession-hero-card {
+    justify-self: stretch;
+    width: 100%;
   }
 
   .faith-mark-feature {
@@ -4014,16 +4376,40 @@ main {
     min-height: 260px;
   }
 
-  .faith-hero-image {
-    height: 260px;
-  }
-
   .faith-summary-grid,
   .faith-education-grid,
   .faith-practice-grid,
   .explore-card-grid,
-  .resource-grid {
+  .resource-grid,
+  .book-grid {
     grid-template-columns: 1fr;
+  }
+
+  .church-timeline-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .church-timeline-list::before {
+    left: 18px;
+  }
+
+  .church-timeline-list li,
+  .church-timeline-list li:nth-child(odd) {
+    grid-template-columns: 1fr;
+    padding-left: 42px;
+  }
+
+  .church-timeline-list li::before,
+  .church-timeline-list li:nth-child(odd)::before {
+    left: 10px;
+    right: auto;
+  }
+
+  .church-timeline-list time {
+    width: fit-content;
+    min-height: 0;
+    padding: 9px 12px;
   }
 
   .faith-timeline-list li {
@@ -4044,15 +4430,10 @@ main {
 @media (max-width: 600px) {
   .faith-hero-card {
     max-width: 310px;
-    padding: 10px;
   }
 
   .faith-hero-icon {
     min-height: 220px;
-  }
-
-  .faith-hero-image {
-    height: 220px;
   }
 
   .faith-hero-icon span,
