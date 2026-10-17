@@ -3338,6 +3338,209 @@ main {
   }
 }
 
+/* Divine Liturgy: extends the existing Worship page components. */
+.liturgy-page .liturgy-journey {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 28px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.liturgy-page .liturgy-journey li {
+  min-width: 0;
+}
+
+.liturgy-page .liturgy-journey a {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
+  border-radius: 8px;
+  color: var(--navy);
+  background: var(--cream);
+  text-decoration: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.liturgy-page .liturgy-journey a:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-soft);
+}
+
+.liturgy-page .liturgy-journey h3 {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.liturgy-page .liturgy-journey p {
+  margin: 0;
+}
+
+.liturgy-page .liturgy-comparison {
+  width: 100%;
+  margin-block: 28px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.liturgy-page .liturgy-comparison caption {
+  margin-bottom: 14px;
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 23px;
+  text-align: left;
+}
+
+.liturgy-page .liturgy-comparison th,
+.liturgy-page .liturgy-comparison td {
+  padding: 16px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.liturgy-page .liturgy-comparison th {
+  color: var(--gold-light);
+  background: var(--navy);
+  font-weight: 600;
+}
+
+.liturgy-page .liturgy-comparison td {
+  color: var(--text);
+  background: var(--cream);
+}
+
+.liturgy-page .liturgy-table-label {
+  display: none;
+}
+
+.liturgy-page .liturgy-readings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-block: 26px;
+  padding: 0;
+  list-style: none;
+}
+
+.liturgy-page .liturgy-readings li {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.liturgy-page .liturgy-readings .liturgy-reading-label {
+  margin-top: 10px;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.liturgy-page .liturgy-glossary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.liturgy-page .liturgy-glossary > div {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--cream);
+}
+
+.liturgy-page .liturgy-glossary dt {
+  margin-bottom: 10px;
+  color: var(--navy);
+  font: 23px/1.25 var(--serif);
+}
+
+.liturgy-page .liturgy-glossary dd {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1080px) {
+  .liturgy-page .liturgy-journey {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .liturgy-page .liturgy-journey,
+  .liturgy-page .liturgy-readings,
+  .liturgy-page .liturgy-glossary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .liturgy-page .liturgy-journey a {
+    border-top: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+  }
+
+  .liturgy-page .liturgy-comparison,
+  .liturgy-page .liturgy-comparison tbody,
+  .liturgy-page .liturgy-comparison tr,
+  .liturgy-page .liturgy-comparison td {
+    display: block;
+  }
+
+  .liturgy-page .liturgy-comparison thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .liturgy-page .liturgy-comparison tr {
+    margin-bottom: 20px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .liturgy-page .liturgy-comparison td {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .liturgy-page .liturgy-comparison td:last-child {
+    border-bottom: 0;
+  }
+
+  .liturgy-page .liturgy-table-label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liturgy-page .liturgy-journey a {
+    transition: none;
+  }
+}
+
 /* Church Fathers educational directory; shared page viewer remains unchanged. */
 .fathers-page [hidden] {
   display: none !important;
