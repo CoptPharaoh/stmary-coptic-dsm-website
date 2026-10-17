@@ -655,6 +655,67 @@ function initSectionViewer() {
   });
 }
 
+function initBookLibrary() {
+  const library = document.querySelector("[data-book-library]");
+  if (!library) return;
+
+  const choices = [...library.querySelectorAll("[data-library-language]")];
+  const collections = [...library.querySelectorAll("[data-library-collection]")];
+  const normalize = (text) => text.normalize("NFKC").toLocaleLowerCase().trim();
+
+  collections.forEach((collection) => {
+    const search = collection.querySelector('input[type="search"]');
+    const books = [...collection.querySelectorAll("[data-book-title]")];
+    const count = collection.querySelector("[data-library-count]");
+    const noResults = collection.querySelector("[data-library-no-results]");
+    const arabic = collection.dataset.libraryCollection === "arabic";
+
+    function filterBooks() {
+      const query = normalize(search.value);
+      let visible = 0;
+      books.forEach((book) => {
+        book.hidden = !normalize(book.dataset.bookTitle).includes(query);
+        if (!book.hidden) visible += 1;
+      });
+      count.textContent = arabic
+        ? (query ? `${visible} من ${books.length} كتابًا` : `${books.length} كتابًا`)
+        : (query ? `${visible} of ${books.length} books` : `${books.length} books`);
+      noResults.hidden = visible !== 0;
+    }
+
+    search.addEventListener("input", filterBooks);
+    collection.querySelector("[data-library-clear]").addEventListener("click", () => {
+      search.value = "";
+      filterBooks();
+      search.focus();
+    });
+    collection.querySelector("[data-library-search]").hidden = false;
+    filterBooks();
+  });
+
+  function selectLanguage(language) {
+    collections.forEach((collection) => {
+      collection.hidden = collection.dataset.libraryCollection !== language;
+    });
+    choices.forEach((choice) => {
+      choice.setAttribute("aria-pressed", String(choice.dataset.libraryLanguage === language));
+    });
+  }
+
+  function selectHashLanguage() {
+    selectLanguage(window.location.hash === "#arabic-books" ? "arabic" : "english");
+  }
+
+  choices.forEach((choice) => {
+    choice.disabled = false;
+    choice.addEventListener("click", () => {
+      selectLanguage(choice.dataset.libraryLanguage);
+    });
+  });
+  window.addEventListener("hashchange", selectHashLanguage);
+  selectHashLanguage();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
@@ -662,4 +723,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initDropdownAccessibility();
   initPopeCarousel();
   initSectionViewer();
+  initBookLibrary();
 });
