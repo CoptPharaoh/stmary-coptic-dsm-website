@@ -6660,3 +6660,229 @@ main {
     min-height: 280px;
   }
 }
+
+/* Hymns & Audio */
+.hymns-page .hymn-hero .page-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+}
+
+.hymns-page .hymn-subtitle {
+  margin-bottom: 10px;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.hymns-page .hymn-hero h1 {
+  font-size: 4.5rem;
+}
+
+.hymns-page .hymn-hero .page-hero-inner > div > p:not(.eyebrow, .hymn-subtitle) {
+  max-width: 62ch;
+  color: rgba(255, 255, 255, .9);
+}
+
+.hymns-page .hymn-hero .hero-verse {
+  margin: 0;
+}
+
+.hymns-page .hymn-hero .btn-outline {
+  border-color: var(--gold-light);
+  background: transparent;
+  color: #fff;
+}
+
+.hymns-page .hymn-hero .btn-outline:hover {
+  background: rgba(255, 255, 255, .1);
+}
+
+.hymns-page .hymn-body {
+  display: grid;
+  gap: 24px;
+}
+
+.hymns-page .hymn-section {
+  min-width: 0;
+  scroll-margin-top: 100px;
+}
+
+.hymns-page .hymn-grid,
+.hymns-page .hymn-directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+  margin-block: 18px 0;
+}
+
+.hymns-page .hymn-directory {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.hymns-page .hymn-directory a {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  text-decoration: none;
+}
+
+.hymns-page .hymn-directory a:hover {
+  border-color: var(--gold);
+}
+
+.hymns-page .hymn-index {
+  color: var(--gold-dark, #88661f);
+  font-weight: 700;
+  font-size: .83rem;
+}
+
+.hymns-page :is(.hymn-topic, .hymn-result) {
+  min-width: 0;
+  border-top: 2px solid var(--gold);
+}
+
+.hymns-page :is(.hymn-topic, .hymn-result, .hymn-directory a) {
+  overflow-wrap: anywhere;
+}
+
+.hymns-page .hymn-result h4 {
+  margin: 0 0 8px;
+  font: 700 1.22rem Georgia, serif;
+  color: var(--navy);
+}
+
+.hymns-page .hymn-season {
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.hymns-page .hymn-alias {
+  font-size: .92rem;
+  font-style: italic;
+}
+
+.hymns-page .hymn-recordings {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.hymns-page .hymn-recordings li {
+  padding-block: 8px;
+  border-top: 1px solid var(--border, #e7dec9);
+  font-size: .9rem;
+}
+
+.hymns-page .hymn-link {
+  color: var(--navy);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+}
+
+.hymns-page .hymn-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.hymns-page .hymn-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  align-items: end;
+  gap: 12px;
+  padding: 16px;
+  margin: 16px 0 24px;
+  border: 1px solid var(--border, #e7dec9);
+  border-radius: 8px;
+  background: var(--cream);
+}
+
+.hymns-page .hymn-filters label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  font-weight: 650;
+}
+
+.hymns-page .hymn-filters :is(input, select, button) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  font: inherit;
+}
+
+.hymns-page .hymn-filters :is(input, select) {
+  padding: 8px 10px;
+  border: 1px solid var(--border, #e7dec9);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--navy);
+}
+
+.hymns-page .hymn-count {
+  font-weight: 700;
+}
+
+.hymns-page [hidden] {
+  display: none !important;
+}
+
+.hymns-page .hymn-timeline {
+  margin-block: 18px;
+}
+
+.hymns-page .hymn-faq {
+  display: grid;
+  gap: 10px;
+}
+
+.hymns-page .hymn-glossary dt {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.hymns-page .hymn-glossary dd {
+  margin: 4px 0 0;
+}
+
+.hymns-page audio {
+  width: 100%;
+  max-width: 360px;
+}
+
+.hymns-page :is(a, input, select, button, summary):focus-visible {
+  outline: 2px solid var(--gold-dark, #88661f);
+  outline-offset: 3px;
+}
+
+@media (max-width: 850px) {
+  .hymns-page .hymn-hero .page-hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hymns-page .hymn-directory {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hymns-page .hymn-hero h1 {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hymns-page .hymn-hero h1 {
+    font-size: 2.65rem;
+  }
+
+  .hymns-page .hymn-directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hymns-page .hymn-hero .resource-actions .btn {
+    width: 100%;
+    white-space: normal;
+  }
+}
