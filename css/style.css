@@ -6752,6 +6752,39 @@ main {
   }
 }
 
+.parish-calendar-page [hidden] {
+  display: none;
+}
+
+.parish-calendar-page .parish-calendar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-block: 12px;
+}
+
+.parish-calendar-page input[name="month"],
+.parish-calendar-page .event-item button {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--navy);
+  background: var(--white);
+  font: inherit;
+}
+
+.parish-calendar-page .event-item {
+  align-items: start;
+}
+
+.parish-calendar-page .event-item > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 /* Hymns & Audio */
 .hymns-page .hymn-hero .page-hero-inner {
   display: grid;

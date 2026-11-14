@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Events page for St. Mary Coptic Orthodox Church." /><title>Events | St. Mary Coptic Orthodox Church</title><link rel="stylesheet" href="css/style.css" /></head>
-<body><div data-site-header></div><main class="page-main"><section class="page-hero"><div class="page-hero-inner"><p class="eyebrow">Events</p><h1>Events</h1><p>Placeholder page for parish events, calendar highlights, and announcements.</p></div></section><section class="page-shell content-page placeholder-content-page long-page-layout" data-section-viewer>
-      <aside class="page-section-nav" aria-label="Page sections">
-        <div class="page-section-nav-inner">
-          <p class="section-label">Page Sections</p>
-          <nav>
-            <a href="#events-overview">Overview</a>
-            <a href="#events-content-plan">Content Plan</a>
-            <a href="#events-next-steps">Next Steps</a>
-          </nav>
-        </div>
-      </aside>
-
-      <div class="long-page-content">
-        <section id="events-overview" class="content-section placeholder-ready-card">
-          <p class="section-label">Overview</p>
-          <h2>Events</h2>
-          <p>This page is ready for future event listings, calendar embeds, registration links, and announcements.</p>
-        </section>
-
-        <section id="events-content-plan" class="content-section accordion-section placeholder-ready-card">
-          <p class="section-label">Content Plan</p>
-          <h2>Ready for Approved Parish Content</h2>
-          <details class="content-accordion" open>
-            <summary><span>01</span><strong>What This Page Can Hold</strong></summary>
-            <div>
-              <p>This section is prepared for approved parish text, photos, links, schedules, forms, resources, and ministry updates related to Events.</p>
-            </div>
-          </details>
-        </section>
-
-        <section id="events-next-steps" class="content-section visit-panel placeholder-next-steps">
-          <div>
-            <p class="section-label">Next Steps</p>
-            <h2>Ready for Updates</h2>
-            <p>Future Google Sites content can be copied here into the editable content panel.</p>
-          </div>
-        </section>
-      </div>
-    </section></main><div data-site-footer></div><script src="js/main.js"></script></body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find upcoming worship and events at St. Mary Coptic Orthodox Church in Des Moines, Iowa." />
+  <title>Parish Calendar | St. Mary Coptic Orthodox Church</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div data-site-header></div>
+  <main class="page-main parish-calendar-page">
+    <section class="page-hero">
+      <div class="page-hero-inner"><div>
+        <p class="eyebrow">Parish Life</p>
+        <h1>Parish Calendar</h1>
+        <p>Join us for worship, prayer, and parish gatherings in Des Moines.</p>
+      </div></div>
+    </section>
+    <div class="page-shell content-page">
+      <section class="content-section" aria-labelledby="parish-month-title">
+        <p class="section-label">Central Time &middot; America/Chicago</p>
+        <h2 id="parish-month-title" aria-live="polite">Services and Events</h2>
+        <form class="parish-calendar-actions" data-parish-month hidden>
+          <button class="btn btn-outline" type="button" data-month-action="-1">Previous month</button>
+          <button class="btn btn-outline" type="button" data-month-action="today">This month</button>
+          <button class="btn btn-outline" type="button" data-month-action="1">Next month</button>
+          <label>Jump to month <input name="month" type="month" min="2007-01" max="9998-12" required /></label>
+          <button class="btn btn-outline" type="submit">Go</button>
+        </form>
+        <p>Open a downloaded .ics file in your personal calendar to add one service or a weekly series. Imported events do not sync with later changes; check this page before visiting.</p>
+        <div data-parish-month-events></div>
+        <noscript><p>Enable JavaScript to browse the calendar, or see the <a href="index.html#schedule">regular weekly schedule</a>.</p></noscript>
+      </section>
+    </div>
+  </main>
+  <div data-site-footer></div>
+  <script src="js/main.js" defer></script>
+  <script src="js/parish-schedule.js" defer></script>
+  <script src="js/parish-calendar.js" defer></script>
+</body>
 </html>
