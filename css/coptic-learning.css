@@ -1,0 +1,23 @@
+.coptic-shell{width:min(1200px,calc(100% - 2rem));margin:auto;padding:2rem 0}
+.coptic-shell section{padding:1.5rem 0;border-bottom:1px solid #c9ad7755}
+.coptic-grid,.letter-grid{display:grid;gap:.75rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr))}
+.letter-grid{grid-template-columns:repeat(auto-fit,minmax(3rem,1fr))}
+.coptic-card,.coptic-shell details,#practice-card{padding:1rem;border:1px solid #c9ad7777;border-radius:6px;background:#fffdf6}
+.coptic-shell details{margin:.6rem 0}
+.coptic-shell summary{cursor:pointer;padding:.5rem 0;font-weight:700}
+.coptic-shell dd{margin:0 0 .6rem}
+.cop{font-family:"Noto Sans Coptic","Antinoou","Segoe UI Historic",serif;font-size:1.55em}
+.hero-cop{font-size:3rem!important;color:#efd59f}
+.coptic-learning .page-hero a{color:#efd59f}
+.letter-display{background:#101b31;color:#fff8e7;padding:1.25rem;text-align:center;border-radius:8px;min-height:10rem}
+#letter-glyph{font-size:2.5rem;color:#efd59f}
+.coptic-controls{display:flex;flex-wrap:wrap;gap:.6rem;margin:.75rem 0}
+.coptic-learning button,.coptic-learning select,.coptic-learning input{min-height:44px;max-width:100%;padding:.45rem .65rem;border:1px solid #8f7545;border-radius:4px;background:#fffdf6;color:#101b31;font:inherit}
+.coptic-learning button{cursor:pointer}
+.coptic-learning button[aria-pressed=true]{background:#101b31;color:#fff8e7}
+.coptic-learning :focus-visible{outline:3px solid #ac7826;outline-offset:3px}
+.coptic-learning [hidden]{display:none}
+.coptic-timeline{border-inline-start:2px solid #b58b48;padding-inline-start:1.5rem}
+#practice-card{margin:.75rem 0}
+#practice-card button{margin:.25rem}
+.coptic-learning a{overflow-wrap:anywhere}
