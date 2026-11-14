@@ -1,0 +1,67 @@
+.learning-page { background: rgba(251,248,241,.9); }
+.learning-page .page-hero-inner { display:block; min-height:0; padding-block:150px 76px; }
+.learning-hero-copy { max-width:960px; }
+.learning-hero-copy > p { max-width:760px; line-height:1.75; margin-block:20px; }
+.learning-page .page-hero h1 { font-size:56px; line-height:1.12; }
+.learning-page .page-hero .btn { margin:8px 12px 0 0; color:var(--navy); text-decoration:none; }
+.learning-page :is(.coptic-shell,.deacon-shell) { width:min(1240px,calc(100% - var(--page-gutter))); padding:48px 0 72px; }
+.learning-page .content-section { padding:36px; margin-block:0 40px; border:1px solid var(--line); background:var(--cream); }
+.learning-page .content-section h2 { font-size:36px; margin-bottom:22px; }
+.learning-page .content-section h3 { margin-top:24px; }
+.learning-page .content-section p { margin-bottom:18px; max-width:78ch; }
+.learning-page .content-section :is(ul,ol) { padding-left:24px; line-height:1.75; }
+.learning-page :is(.coptic-grid,.deacon-grid) { gap:22px; }
+.learning-page #directory nav { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.learning-page #directory a,.learning-page #related a { padding:24px; border-top:3px solid var(--gold); font-family:var(--serif); font-size:21px; text-decoration:none; background:var(--white); }
+.learning-page #directory a:hover,.learning-page #related a:hover { background:var(--navy); color:var(--gold-light); }
+.learning-page .learning-card,.learning-page .coptic-card { padding:24px; margin-block:14px; background:var(--white); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-soft); }
+.learning-page .learning-card h3 { margin-top:0; }
+.learning-page :is(#bible,#vestments,#curriculum,#formation) { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.learning-page :is(#bible,#vestments,#curriculum,#formation)>:not(article) { grid-column:1/-1; }
+.learning-page #ranks .deacon-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.learning-page #school { border-top:4px solid var(--gold); }
+.learning-page [data-school-hours] { display:grid; grid-template-columns:repeat(3,1fr); list-style:none; padding:0!important; gap:18px; }
+.learning-page [data-school-hours] li { background:var(--navy); color:var(--cream); padding:24px; border-radius:var(--radius); }
+.learning-page [data-school-next] { padding:18px 0; font-weight:700; color:var(--navy); }
+.learning-page .learning-table { overflow-x:auto; margin-block:24px; }
+.learning-page table { width:100%; border-collapse:collapse; text-align:left; }
+.learning-page th,.learning-page td { padding:18px; border-bottom:1px solid var(--line); }
+.learning-page thead { background:var(--navy); color:var(--cream); }
+.learning-page .coptic-timeline { list-style:none; margin:28px 0; }
+.learning-page .coptic-timeline li { position:relative; padding:10px 20px 26px; }
+.learning-page .coptic-timeline li::before { content:""; position:absolute; left:-31px; top:17px; width:12px; height:12px; border-radius:50%; background:var(--gold); }
+.learning-page .coptic-timeline strong { font:24px var(--serif); color:var(--navy); }
+.learning-page #letter-tool { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:24px; }
+.learning-page .letter-display { display:flex; flex-direction:column; justify-content:center; min-height:270px; padding:32px; }
+.learning-page #letter-glyph { font-size:76px; }
+.learning-page .letter-display p { color:var(--cream); margin:12px auto; }
+.learning-page .coptic-controls { grid-column:1/-1; grid-row:2; gap:16px; align-items:end; }
+.learning-page .letter-grid { grid-template-columns:repeat(8,minmax(0,1fr)); gap:8px; }
+.learning-page .letter-grid button { min-height:58px; padding:6px; font-size:22px; }
+.learning-page :is(button,select,input[type=search]) { font:inherit; min-height:48px; padding:12px 18px; border:1px solid var(--line); border-radius:6px; background:var(--white); color:var(--navy); }
+.learning-page button:hover { border-color:var(--gold); }
+.learning-page button:disabled { opacity:.55; cursor:default; }
+.learning-page label { line-height:1.6; }
+.learning-page :is(#practice-card,#deacon-question) { background:var(--white); border:1px solid var(--line); padding:32px; border-radius:var(--radius); margin-block:24px; min-height:180px; }
+.learning-page :is(#practice-card,#deacon-question)>p { font-size:25px; font-family:var(--serif); }
+.learning-page :is(#practice-card,#deacon-question) button { margin:6px; }
+.learning-page #deacon-checklist label { padding:16px; border-bottom:1px solid var(--line); }
+.learning-page details { border-color:var(--line); padding:18px 22px; background:var(--white); }
+.learning-page summary { color:var(--navy); }
+.learning-page #reflection { background:var(--navy); color:var(--cream); }
+.learning-page #reflection :is(h2,p,a) { color:inherit; }
+.learning-page [hidden] { display:none!important; }
+@media(max-width:1024px) {
+ .learning-page #directory nav,.learning-page #ranks .deacon-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .learning-page #letter-tool { grid-template-columns:1fr; }
+ .learning-page .coptic-controls { grid-row:auto; }
+}
+@media(max-width:600px) {
+ .learning-page .page-hero h1 { font-size:38px; }
+ .learning-page .page-hero-inner { padding-block:128px 48px; }
+ .learning-page .content-section { padding:22px; margin-bottom:28px; }
+ .learning-page .content-section h2 { font-size:29px; }
+ .learning-page :is(#directory nav,#ranks .deacon-grid,[data-school-hours],#bible,#vestments,#curriculum,#formation) { grid-template-columns:1fr; }
+ .learning-page .letter-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+ .learning-page :is(#practice-card,#deacon-question) { padding:18px; }
+}
