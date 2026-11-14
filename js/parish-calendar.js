@@ -112,6 +112,29 @@
     return (Number(hour) % 12 || 12) + ":" + minute + (Number(hour) >= 12 ? " PM" : " AM");
   };
   const hours = ({ start, end }) => timeText(start) + (end ? "\u2013" + timeText(end) : "");
+  const schoolNext = document.querySelector("[data-school-next]");
+  if (schoolNext) {
+    const schoolHours = document.querySelectorAll("[data-school-hours] li");
+    const schoolServices = ["deacons-school", "vespers", "tasbeha"];
+    schoolServices.forEach((id, index) => {
+      const service = services.find((item) => item.id === id);
+      if (!service || !schoolHours[index]) return;
+      const day = textDate(addDays("2026-01-04", service.weekday), { weekday: "long" });
+      schoolHours[index].textContent = day + " · " + service.title + " · " + hours(service) + " Central";
+    });
+    function updateSchoolDate() {
+      const { date, time } = localNow(new Date());
+      const next = occurrences(date, addDays(date, 365)).find(
+        (event) => event.id === "deacons-school" && event.date + event.start >= date + time,
+      );
+      schoolNext.textContent = next
+        ? "Next session: " + textDate(next.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" }) +
+          " at " + hours(next) + " Central." + (next.note ? " " + next.note : "")
+        : "See the parish calendar for the next Deacons School session.";
+    }
+    updateSchoolDate();
+    setInterval(updateSchoolDate, 30_000);
+  }
   const el = (tag, value, cls) => {
     const node = document.createElement(tag);
     if (value) node.textContent = value;

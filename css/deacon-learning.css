@@ -1,0 +1,18 @@
+.deacon-shell{width:min(1200px,calc(100% - 2rem));margin:auto;padding-block:1rem 3rem}
+.deacon-shell section{padding:1.5rem 0;border-bottom:1px solid #b6945455}
+.deacon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.75rem}
+.deacon-grid a,.deacon-shell details{display:block;background:#fffaf0;border:1px solid #b6945477;border-radius:6px;padding:.75rem 1rem;overflow-wrap:anywhere}
+.deacon-shell details{margin:.35rem 0}
+.deacon-shell summary{cursor:pointer;font-weight:700;padding-block:.45rem}
+.deacon-learning .page-hero a{color:#efd59f}
+.deacon-shell button,.deacon-shell select,.deacon-shell input[type=search]{min-height:44px;max-width:100%;font:inherit;padding:.45rem .7rem}
+.deacon-shell button{margin:.2rem;border:1px solid #9c7e48;background:#fffaf0;border-radius:5px;color:#14213a;cursor:pointer}
+.deacon-shell button[aria-pressed=true]{background:#14213a;color:#fffaf0}
+.deacon-shell label{display:block;padding:.35rem 0}
+.deacon-shell :focus-visible{outline:3px solid #956424;outline-offset:3px}
+.deacon-shell [hidden]{display:none}
+.service-timeline{padding-inline-start:1.5rem;border-inline-start:2px solid #b69454}
+@media print{
+body:has(.deacon-learning)>:not(main),.deacon-learning>.page-hero,.deacon-shell>section:not(#practice),#practice>:not(h2,.weekly-sheet){display:none!important}
+.deacon-shell{width:100%;padding:0}
+}
