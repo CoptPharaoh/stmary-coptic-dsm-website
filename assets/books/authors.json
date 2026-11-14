@@ -1,0 +1,68 @@
+{
+  "pope-shenouda-iii": {
+    "name": "H.H. Pope Shenouda III",
+    "bio": "The 117th Pope of Alexandria wrote extensively on prayer, repentance, Scripture, and Orthodox theology.",
+    "arabicName": "قداسة البابا شنوده الثالث",
+    "aliases": [
+      "البابا شنودة الثالث",
+      "Shenouda 3"
+    ]
+  },
+  "pope-tawadros-ii": {
+    "name": "H.H. Pope Tawadros II",
+    "bio": "The 118th Pope of Alexandria and Patriarch of the See of St. Mark.",
+    "portrait": "assets/images/pope-tawadros.png"
+  },
+  "pope-kyrillos-vi": {
+    "name": "St. Pope Kyrillos VI",
+    "bio": "The 116th Pope of Alexandria, remembered for his life of prayer."
+  },
+  "fr-matta-el-meskeen": {
+    "name": "Fr. Matta El Meskeen",
+    "bio": "A Coptic Orthodox monk and writer on prayer, Scripture, and spiritual life."
+  },
+  "fr-tadros-yacoub-malaty": {
+    "name": "Fr. Tadros Yacoub Malaty",
+    "bio": "A Coptic Orthodox priest known for biblical commentaries and writings on the Church Fathers."
+  },
+  "fr-anthony-messeh": {
+    "name": "Fr. Anthony Messeh",
+    "bio": "A Coptic Orthodox priest whose teachings focus on Christian discipleship."
+  },
+  "st-athanasius": {
+    "name": "St. Athanasius the Apostolic",
+    "bio": "A fourth-century Patriarch of Alexandria and defender of the Nicene faith."
+  },
+  "st-cyril-of-alexandria": {
+    "name": "St. Cyril of Alexandria",
+    "bio": "An Alexandrian patriarch whose writings defend the unity of Christ and Mary as Theotokos."
+  },
+  "st-john-chrysostom": {
+    "name": "St. John Chrysostom",
+    "bio": "A Church Father known for biblical homilies and pastoral teaching."
+  },
+  "st-basil-the-great": {
+    "name": "St. Basil the Great",
+    "bio": "A Church Father known for his theological, monastic, and pastoral writings."
+  },
+  "st-augustine": {
+    "name": "Augustine of Hippo",
+    "bio": "An influential early Christian bishop and theological writer."
+  },
+  "st-isaac-the-syrian": {
+    "name": "St. Isaac the Syrian",
+    "bio": "An ascetic writer whose works explore prayer, repentance, and spiritual life."
+  },
+  "st-severus-of-antioch": {
+    "name": "St. Severus of Antioch",
+    "bio": "A Father of the Oriental Orthodox tradition known for his Christological writings."
+  },
+  "church-publications": {
+    "name": "Church Publications",
+    "bio": "Publications issued by churches and Orthodox institutions."
+  },
+  "other-authors": {
+    "name": "Other Authors",
+    "bio": "Works by additional authors not listed separately."
+  }
+}
