@@ -1,5 +1,7 @@
 # Administration setup
 
+For the configured stmary-coptic-dsm project, follow SUPABASE_CONNECTION.md. It supersedes this initial guide's unconfigured status and calendar integration boundary.
+
 This is an unconfigured initial implementation on clean-rebuild. Apply it to a development Supabase project first. Authentication, SQL policies, invitations, and live publishing have not been tested against a database.
 
 ## Create a development project

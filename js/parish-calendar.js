@@ -1,6 +1,6 @@
-(() => {
+(async () => {
   const zone = "America/Chicago";
-  const { services, exceptions, specialEvents } = globalThis.parishSchedule;
+  let { services, exceptions, specialEvents } = globalThis.parishSchedule;
   const civil = (date) => new Date(date + "T12:00:00Z");
   const iso = (date) => date.toISOString().slice(0, 10);
   const addDays = (date, days) => {
@@ -24,13 +24,13 @@
     for (const service of services) {
       const offset = (service.weekday - weekday(from) + 7) % 7;
       for (let date = addDays(from, offset); within(date); date = addDays(date, 7)) {
-        if (!Object.hasOwn(exceptions, service.id + "@" + date)) {
+        if ((!service.startDate || date >= service.startDate) && (!service.endDate || date <= service.endDate) && !Object.hasOwn(exceptions, service.id + "@" + date)) {
           result.push({ ...service, date, originalDate: date, service });
         }
       }
       for (const [key, change] of Object.entries(exceptions)) {
         const [id, originalDate] = key.split("@");
-        if (id !== service.id || change.cancelled) continue;
+        if (id !== service.id || change.cancelled || (service.startDate && originalDate < service.startDate) || (service.endDate && originalDate > service.endDate)) continue;
         const date = change.date || originalDate;
         if (within(date)) {
           // A different start needs an explicit new end; the old end may no longer apply.
@@ -106,6 +106,29 @@
   }
   if (typeof document === "undefined") return;
 
+  let loadCalendar;
+  let requestVersion = 0;
+  const notice = document.createElement("p");
+  notice.setAttribute("role", "status");
+  const host = document.querySelector("[data-parish-month-events], [data-parish-upcoming], [data-school-next]");
+  if (host) host.before(notice);
+  async function refreshCalendar(from, until) {
+    const version = ++requestVersion;
+    try {
+      if (!loadCalendar) ({ loadCalendar } = await import("./live-calendar.js"));
+      const data = await loadCalendar(from, until);
+      if (version !== requestVersion) return;
+      ({ services, exceptions, specialEvents } = data);
+      notice.textContent = "";
+    } catch {
+      if (version !== requestVersion) return;
+      ({ services, exceptions, specialEvents } = globalThis.parishSchedule);
+      notice.textContent = "Regular weekly schedule shown. Please contact the parish to confirm any special changes.";
+    }
+  }
+  const initialDate = localNow(new Date()).date;
+  await refreshCalendar(initialDate, addDays(initialDate, 366));
+
   const textDate = (date, options) => new Intl.DateTimeFormat("en-US", { timeZone: "UTC", ...options }).format(civil(date));
   const timeText = (time) => {
     const [hour, minute] = time.split(":");
@@ -168,7 +191,7 @@
     if (full) {
       const actions = el("div", "", "parish-calendar-actions");
       actions.append(downloadButton(event, false));
-      if (event.service) actions.append(downloadButton(event, true));
+      if (event.service && !event.service.endDate) actions.append(downloadButton(event, true));
       copy.append(actions);
     }
     article.append(date, copy);
@@ -180,7 +203,7 @@
     if (!upcoming) return;
     const { date, time } = localNow(new Date());
     const next = [];
-    for (let from = date; next.length < 5; from = addDays(from, 28)) {
+    for (let from = date; next.length < 5 && from < addDays(date, 366); from = addDays(from, 28)) {
       next.push(...occurrences(from, addDays(from, 28))
         .filter((event) => event.date > date || event.start >= time));
     }
@@ -202,9 +225,12 @@
     date.setUTCMonth(date.getUTCMonth() + delta);
     return iso(date).slice(0, 7);
   }
-  function render() {
+  async function render() {
     input.value = month;
     heading.textContent = textDate(month + "-01", { month: "long", year: "numeric" });
+    const requestedMonth = month;
+    await refreshCalendar(month + "-01", shift(month, 1) + "-01");
+    if (requestedMonth !== month) return;
     const events = occurrences(month + "-01", shift(month, 1) + "-01");
     list.replaceChildren(...(events.length ? events.map((event) => card(event, true)) : [el("p", "No services are scheduled this month.")]));
   }

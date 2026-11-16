@@ -17,6 +17,30 @@
 <h1>Parish content</h1><nav aria-label="Administration"><button data-table="announcements">Announcements</button><button data-table="events">Events</button><a href="../events.html">Public calendar</a></nav>
 <div class="admin-toolbar"><label>Search<input id="search" type="search"></label><button id="new-record">Create draft</button><button id="refresh">Refresh</button></div>
 <div id="records"></div>
+<details id="schedule-admin"><summary>Recurring weekly services and exceptions</summary>
+<p>All recurring times use America/Chicago. Editing a series changes its entire schedule.</p>
+<button type="button" id="load-series">Load recurring services</button>
+<div id="series-list"></div>
+<form id="series-form" hidden>
+<input name="id" type="hidden">
+<label>Title<input name="title" required></label>
+<label>Weekday<select name="weekday"><option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option></select></label>
+<label>Starts<input name="local_start_time" type="time" required></label>
+<label>Ends (optional)<input name="local_end_time" type="time"></label>
+<label>Effective from<input name="start_date" type="date" required></label>
+<label>Effective until (optional)<input name="end_date" type="date"></label>
+<label>Status<select name="status"><option>draft</option><option>published</option><option>archived</option></select></label>
+<button>Save entire series</button>
+</form>
+<form id="exception-form" hidden><h2>Change one occurrence</h2>
+<input name="series_id" type="hidden">
+<label>Original occurrence date<input name="original_date" type="date" required></label>
+<label>Action<select name="action"><option value="cancel">Cancel this occurrence</option><option value="modify">Reschedule this occurrence</option></select></label>
+<label>Replacement date<input name="replacement_date" type="date"></label>
+<label>Replacement start<input name="replacement_start" type="time"></label>
+<label>Replacement end (optional)<input name="replacement_end" type="time"></label>
+<label>Reason<input name="reason" required></label><button>Save occurrence change</button>
+</form></details>
 <form id="editor" hidden><h2 id="editor-heading">Edit content</h2>
 <input name="id" type="hidden">
 <label>Title<input name="title" maxlength="200" required></label>
@@ -35,6 +59,6 @@
 <button type="submit">Save changes</button><button type="button" id="close-editor">Close</button>
 </form>
 </section>
-</main><script type="module" src="../js/admin/portal.js"></script>
+</main><script type="module" src="../js/admin/portal.js"></script><script type="module" src="../js/admin/schedules.js"></script>
 </body></html>
 
