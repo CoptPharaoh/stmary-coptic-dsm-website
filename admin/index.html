@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Parish Administration | St. Mary</title>
+<link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/admin.css"></head>
+<body class="admin-body">
+<header class="admin-header"><a href="../index.html">St. Mary · Parish Administration</a><button id="logout" hidden>Sign out</button></header>
+<main class="admin-main">
+<p id="status" role="status">Checking configuration…</p>
+<section id="login" hidden><h1>Sign in</h1><form id="login-form">
+<label>Email<input name="email" type="email" autocomplete="username" required></label>
+<label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+<button>Sign in</button><button type="button" id="reset-request">Send password reset</button></form></section>
+<section id="password-panel" hidden><h1>Set your password</h1><form id="password-form"><label>New password<input name="password" type="password" autocomplete="new-password" minlength="12" required></label><button>Save password</button></form></section>
+<section id="mfa-panel" hidden><h1>Authenticator verification</h1><p>Add this account to your authenticator, then enter its six-digit code.</p><img id="qr" alt="Authenticator enrollment QR code" hidden><label>Code<input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6"></label><button id="verify">Verify</button></section>
+<section id="workspace" hidden>
+<h1>Parish content</h1><nav aria-label="Administration"><button data-table="announcements">Announcements</button><button data-table="events">Events</button><a href="../events.html">Public calendar</a></nav>
+<div class="admin-toolbar"><label>Search<input id="search" type="search"></label><button id="new-record">Create draft</button><button id="refresh">Refresh</button></div>
+<div id="records"></div>
+<form id="editor" hidden><h2 id="editor-heading">Edit content</h2>
+<input name="id" type="hidden">
+<label>Title<input name="title" maxlength="200" required></label>
+<label>Ministry<select name="ministry_id"><option value="">Parish-wide</option></select></label>
+<label>Content<textarea name="body" rows="8" maxlength="30000"></textarea></label>
+<div id="announcement-fields">
+<label>Summary<textarea name="summary" maxlength="1000"></textarea></label>
+<label>Arabic title<input name="title_ar" lang="ar" dir="rtl"></label><label>Arabic content<textarea name="body_ar" lang="ar" dir="rtl"></textarea></label>
+<label>Placement<select name="placement"><option>announcements</option><option>homepage</option><option>site_banner</option><option>ministry</option></select></label>
+<label>Publish at (your local time)<input name="publish_at" type="datetime-local"></label>
+<label>Expires at (your local time)<input name="expires_at" type="datetime-local"></label>
+</div>
+<div id="event-fields" hidden><label>Location<input name="location"></label>
+<label>Starts (your local time)<input name="start_at" type="datetime-local"></label><label>Ends (optional, your local time)<input name="end_at" type="datetime-local"></label></div>
+<label>Status<select name="status"><option>draft</option><option>pending_review</option><option>published</option><option>archived</option></select></label>
+<button type="submit">Save changes</button><button type="button" id="close-editor">Close</button>
+</form>
+</section>
+</main><script type="module" src="../js/admin/portal.js"></script>
+</body></html>
+
