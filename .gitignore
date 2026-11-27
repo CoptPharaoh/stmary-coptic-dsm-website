@@ -1,1 +1,22 @@
 .DS_Store
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+.supabase/
+supabase/.temp/
+supabase/.branches/
+
+# Dependencies and generated test output
+node_modules/
+playwright-report/
+test-results/
+coverage/
+*.log
+npm-debug.log*
+.venv/
+__pycache__/
