@@ -1,11 +1,15 @@
-import { getSupabase } from "../supabase-client.js";
+import { getSupabase, withTimeout } from "../supabase-client.js";
+// The SDK consumes callback fragments while restoring the session.
+const callback = new URLSearchParams(location.hash.slice(1));
+const passwordCallback = ["invite", "recovery"].includes(callback.get("type"));
 const get = (id) => document.getElementById(id);
 const status = get("status");
 let db, table = "announcements", records = [], factor;
 const editor = get("editor");
 function message(text) { status.textContent = text; }
 async function run(action) {
-  try { await action(); } catch (error) { message(error.message); }
+  try { await withTimeout(action(), "Authentication or data request", 30000); }
+  catch (error) { message(error.message || "Unable to complete the request. Refresh and try again."); }
 }
 function check(result) { if (result.error) throw result.error; return result.data; }
 function hidePrivate() {
@@ -17,7 +21,14 @@ function hidePrivate() {
 async function authorize() {
   hidePrivate();
   const { data, error } = await db.auth.getUser();
-  if (error || !data.user) { get("login").hidden = false; return; }
+  if (error || !data.user) {
+    get("login").hidden = false;
+    get("logout").hidden = true;
+    get("mfa-panel").hidden = true;
+    if (error && error.name !== "AuthSessionMissingError") throw error;
+    message("Ready. Sign in with your invited administrator account.");
+    return;
+  }
   get("login").hidden = true;
   get("logout").hidden = false;
   const account = check(await db.from("admin_accounts").select("role,active").eq("user_id", data.user.id).maybeSingle());
@@ -87,6 +98,7 @@ get("login-form").onsubmit = (event) => {
   });
 };
 get("reset-request").onclick = () => run(async () => {
+  if (!get("login-form").email.reportValidity()) return;
   check(await db.auth.resetPasswordForEmail(get("login-form").email.value,{redirectTo:new URL("./index.html",location.href).href}));
   message("Password reset requested. Check your email.");
 });
@@ -137,9 +149,22 @@ run(async () => {
   db = await getSupabase();
   db.auth.onAuthStateChange((event) => {
     if (event === "SIGNED_OUT") { hidePrivate(); get("login").hidden = false; }
-    if (event === "PASSWORD_RECOVERY") { hidePrivate(); get("password-panel").hidden = false; }
+    if (event === "PASSWORD_RECOVERY") {
+      hidePrivate(); get("login").hidden = true;
+      get("password-panel").hidden = false; message("Set a new password for your account.");
+    }
   });
-  if (location.hash.includes("type=invite") || location.hash.includes("type=recovery")) {
+  if (callback.has("error") || callback.has("error_description")) {
+    get("login").hidden = false;
+    throw new Error("The authentication link is invalid or expired. Request a new invitation or password reset.");
+  }
+  if (passwordCallback) {
+    const { data, error } = await db.auth.getUser();
+    if (error || !data.user) {
+      get("login").hidden = false;
+      throw new Error("The authentication link could not be verified. Request a new invitation or password reset.");
+    }
+    get("login").hidden = true;
     get("password-panel").hidden = false; message("Set a password for your account."); return;
   }
   await authorize();

@@ -16,12 +16,7 @@ In js/supabase-config.js supply the HTTPS project URL and sb_publishable_ key fr
 
 Disable new user signup in Supabase Auth. Configure SMTP and test delivery before inviting staff. Enable TOTP MFA. Set the production Site URL to the approved production origin. Add exact redirect URLs for /admin/index.html on production and the chosen localhost port. Use a separate project for previews and allow only approved preview origins.
 
-Invite the initial owner through Supabase's trusted Auth dashboard. After locating the user's UUID, execute this reviewed SQL in the SQL editor, replacing the placeholder with that UUID:
-
-```sql
-insert into public.admin_accounts(user_id,role)
-values ('OWNER-UUID-HERE','owner');
-```
+Invite the initial owner through Supabase's trusted Auth dashboard. Verify the intended person's email and UUID, then review supabase/setup/first_owner.sql and replace its two placeholders. Run it as postgres in the trusted SQL Editor after migrations 001–003 are approved and applied. It is an operator script, separate from migrations, and refuses to run twice. See SUPABASE_CONNECTION.md for ownership transfer and recovery.
 
 The invitation returns to admin/index.html to set a password. Owners and administrators must enroll and verify an authenticator to access content. Save the parish's recovery procedures outside the website. A trusted Supabase project administrator can recover an account through Auth administration after verifying the person's identity.
 

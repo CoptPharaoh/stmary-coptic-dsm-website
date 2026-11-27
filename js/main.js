@@ -1,3 +1,15 @@
+// Resolve shared links from this script, not from a potentially nested page.
+const siteRootURL = new URL("../", document.currentScript.src);
+function resolveSharedLinks(mount) {
+  mount.querySelectorAll("a[href], img[src]").forEach(element => {
+    const attribute = element.tagName === "IMG" ? "src" : "href";
+    const value = element.getAttribute(attribute);
+    if (/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value)) return;
+    const url = new URL(value, siteRootURL);
+    element.setAttribute(attribute, url.pathname + url.search + url.hash);
+  });
+}
+
 const siteNavigation = [
   { label: "Home", href: "index.html" },
   {
@@ -78,7 +90,11 @@ const siteNavigation = [
       { label: "Service Opportunities", href: "service-opportunities.html" },
     ],
   },
-  { label: "Events", href: "events.html" },
+  { label: "Parish Life", href: "events.html", children: [
+    { label: "Parish Announcements", href: "announcements.html" },
+    { label: "Upcoming Events", href: "events.html#upcoming-events" },
+    { label: "Parish Calendar", href: "events.html#parish-calendar" },
+  ] },
   { label: "Live Stream", href: "livestream.html", cta: true, variant: "live" },
   { label: "Give", href: "give.html", cta: true },
   { label: "Login", href: "#", cta: true, variant: "secondary" },
@@ -90,8 +106,23 @@ function getCurrentPage() {
 }
 
 function isActiveItem(item, currentPage) {
-  return item.href === currentPage || Boolean(item.children?.some((child) => child.href === currentPage));
+  return item.href.split("#")[0] === currentPage || Boolean(item.children?.some((child) => child.href.split("#")[0] === currentPage));
 }
+
+function isCurrentNavLink(href, currentPage) {
+  const destination = new URL(href, siteRootURL);
+  const page = destination.pathname.split("/").pop();
+  return page === currentPage && (!destination.hash || destination.hash === (location.hash || (page === "events.html" ? "#parish-calendar" : "")));
+}
+
+window.addEventListener("hashchange", () => {
+  document.querySelectorAll(".dropdown-menu a").forEach(link => {
+    const active = isCurrentNavLink(link.getAttribute("href"), getCurrentPage());
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
+});
 
 function renderHeader() {
   const headerMount = document.querySelector("[data-site-header]");
@@ -113,13 +144,13 @@ function renderHeader() {
 
     const submenuId = `submenu-${index}`;
     const childMarkup = item.children.map((child) => (
-      `<li><a href="${child.href}" class="${child.href === currentPage ? "active" : ""}"${child.href === currentPage ? ' aria-current="page"' : ""}>${child.label}</a></li>`
+      `<li><a href="${child.href}" class="${isCurrentNavLink(child.href, currentPage) ? "active" : ""}"${isCurrentNavLink(child.href, currentPage) ? ' aria-current="location"' : ""}>${child.label}</a></li>`
     )).join("");
 
     return `
       <li class="nav-item has-dropdown${isActive}" data-menu-index="${index}">
         <a href="${item.href}" class="nav-link nav-parent${isActive}" aria-haspopup="true" aria-expanded="false"${ariaCurrent}>${item.label}</a>
-        <button class="mobile-submenu-toggle" type="button" aria-expanded="false" aria-controls="${submenuId}">${item.label}</button>
+        <button class="mobile-submenu-toggle${isActive}" type="button" aria-expanded="false" aria-controls="${submenuId}">${item.label}</button>
         <ul class="dropdown-menu" id="${submenuId}" aria-label="${item.label} submenu">
           ${childMarkup}
         </ul>
@@ -151,6 +182,7 @@ function renderHeader() {
       </nav>
     </header>
   `;
+  resolveSharedLinks(headerMount);
 }
 
 function renderFooter() {
@@ -180,7 +212,8 @@ function renderFooter() {
             <a href="about.html">About</a>
             <a href="about-welcome.html">I'm New Here</a>
             <a href="worship.html">Worship</a>
-            <a href="events.html">Events</a>
+            <a href="announcements.html">Parish Announcements</a>
+            <a href="events.html#parish-calendar">Parish Calendar</a>
           </div>
 
           <div>
@@ -220,6 +253,7 @@ function renderFooter() {
       </div>
     </footer>
   `;
+  resolveSharedLinks(footerMount);
 }
 
 function initMobileMenu() {

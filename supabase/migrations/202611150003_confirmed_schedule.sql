@@ -1,6 +1,8 @@
 begin;
 -- Effective date chosen for the initial migration: November 15, 2026.
 -- Existing rows are never overwritten by rerunning this seed.
+-- Apply after 001 and 002. Stable IDs prevent seed duplicates; the exact-schedule
+-- unique index also rejects equivalent services inserted under a different ID.
 insert into public.recurring_event_series
 (id,title,weekday,local_start_time,local_end_time,start_date,status) values
 ('sunday-liturgy','Sunday Divine Liturgy',0,'08:00','11:30','2026-11-15','published'),
