@@ -42,6 +42,8 @@ try {
    await parish().getByRole('link',{name:label,exact:true}).click();
    assert.ok(page.url().endsWith(suffix));await checkMenu();
    assert.ok((await parish().getAttribute('class')).includes('active'));
+   // Same-document navigation dispatches hashchange after the click resolves.
+   await page.waitForFunction(expected=>[...document.querySelectorAll('.dropdown-menu a.active')].some(link=>link.textContent===expected),label);
    assert.deepEqual(await parish().locator('.dropdown-menu a.active').allTextContents(),[label]);
    if(width<1241)assert.equal(await parish().locator('.mobile-submenu-toggle').evaluate(el=>getComputedStyle(el).color),'rgb(240, 202, 122)');
    if(label==='Parish Announcements'){

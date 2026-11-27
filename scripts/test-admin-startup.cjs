@@ -3,11 +3,11 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
-const source = fs.readFileSync(path.join(__dirname, '../js/admin/portal.js'), 'utf8').replace(/^import .*;\n/, '');
+const source = fs.readFileSync(path.join(__dirname, '../js/admin/portal.js'), 'utf8').replace(/^import .*;\n/gm, '');
 async function scenario({ hash = '', user = null, error = null, libraryError = false, role = 'owner' } = {}) {
   const nodes = new Map();
   const get = id => {
-    if (!nodes.has(id)) nodes.set(id, { hidden: true, textContent: '', replaceChildren() {}, value: '', elements: {}, email: { value: 'test@example.invalid', reportValidity: () => true }, password: { value: 'not-a-real-password' } });
+    if (!nodes.has(id)) nodes.set(id, { hidden: true, textContent: '', dataset:{}, removeAttribute(){},reset(){},replaceChildren() {}, value: '', elements: { email: { value: 'test@example.invalid', reportValidity: () => true }, password: { value: 'not-a-real-password' } } });
     return nodes.get(id);
   };
   const calls = [];
@@ -28,6 +28,9 @@ async function scenario({ hash = '', user = null, error = null, libraryError = f
     document: { getElementById: get, querySelectorAll: () => [] }, location, URL, URLSearchParams,
     getSupabase: async () => { location.hash = ''; if (libraryError) throw new Error('Library unavailable'); return db; },
     withTimeout: async operation => operation,
+    get, check:result=>{if(result.error)throw result.error;return result.data;},
+    message:(text)=>{get('status').textContent=text;}, setTimeout,
+    createDashboard:()=>{throw Error('Private dashboard must not initialize before MFA');},
   });
   const settle = () => new Promise(resolve => setImmediate(resolve));
   await settle();

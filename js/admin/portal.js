@@ -1,172 +1,269 @@
 import { getSupabase, withTimeout } from "../supabase-client.js";
-// The SDK consumes callback fragments while restoring the session.
+import { get, check, message } from "./ui.js";
+import { createDashboard } from "./dashboard.js";
+
+// Capture invitation/recovery intent before the SDK consumes the fragment.
 const callback = new URLSearchParams(location.hash.slice(1));
-const passwordCallback = ["invite", "recovery"].includes(callback.get("type"));
-const get = (id) => document.getElementById(id);
-const status = get("status");
-let db, table = "announcements", records = [], factor;
-const editor = get("editor");
-function message(text) { status.textContent = text; }
-async function run(action) {
-  try { await withTimeout(action(), "Authentication or data request", 30000); }
-  catch (error) { message(error.message || "Unable to complete the request. Refresh and try again."); }
-}
-function check(result) { if (result.error) throw result.error; return result.data; }
-function hidePrivate() {
+let db,
+  dashboard,
+  factor,
+  verifiedUserId,
+  generation = 0,
+  recovery = false,
+  busy = false;
+function clearPrivate() {
+  generation++;
+  dashboard?.dispose();
+  dashboard = null;
+  factor = null;
+  verifiedUserId = null;
   get("workspace").hidden = true;
-  editor.hidden = true;
-  records = [];
-  get("records").replaceChildren();
+  get("auth-layout").hidden = false;
+  for (const id of ["login", "password-panel", "mfa-panel"])
+    get(id).hidden = true;
+  get("qr").removeAttribute("src");
+  get("qr").hidden = true;
+  get("mfa-code").value = "";
+  get("password-form").reset();
+}
+async function run(action) {
+  if (busy) return;
+  busy = true;
+  try {
+    await withTimeout(action(), "Authentication request", 30000);
+  } catch (error) {
+    clearPrivate();
+    get("login").hidden = false;
+    message(error.message || "Unable to authenticate. Please retry.", true);
+  } finally {
+    busy = false;
+  }
 }
 async function authorize() {
-  hidePrivate();
+  clearPrivate();
+  const version = generation;
+  const current = () => version === generation;
   const { data, error } = await db.auth.getUser();
+  if (!current()) return;
   if (error || !data.user) {
     get("login").hidden = false;
     get("logout").hidden = true;
-    get("mfa-panel").hidden = true;
     if (error && error.name !== "AuthSessionMissingError") throw error;
     message("Ready. Sign in with your invited administrator account.");
     return;
   }
-  get("login").hidden = true;
   get("logout").hidden = false;
-  const account = check(await db.from("admin_accounts").select("role,active").eq("user_id", data.user.id).maybeSingle());
-  if (!account?.active) throw new Error("This account has no active administrative access.");
+  const account = check(
+    await db
+      .from("admin_accounts")
+      .select("role,active")
+      .eq("user_id", data.user.id)
+      .maybeSingle(),
+  );
+  if (!current()) return;
+  if (!account?.active)
+    throw Error("This account has no active administrative access.");
   const assurance = check(await db.auth.mfa.getAuthenticatorAssuranceLevel());
-  if (["owner","administrator"].includes(account.role) && assurance.currentLevel !== "aal2") {
-    get("mfa-panel").hidden = false;
+  if (!current()) return;
+  if (
+    ["owner", "administrator"].includes(account.role) &&
+    assurance.currentLevel !== "aal2"
+  ) {
     const factors = check(await db.auth.mfa.listFactors());
+    if (!current()) return;
     factor = factors.totp.find((item) => item.status === "verified")?.id;
     if (!factor) {
-      const enrollment = check(await db.auth.mfa.enroll({ factorType: "totp" }));
+      // Remove abandoned enrollment factors so a reload cannot exhaust the limit.
+      for (const pending of factors.totp.filter(
+        (item) => item.status !== "verified",
+      )) {
+        check(await db.auth.mfa.unenroll({ factorId: pending.id }));
+        if (!current()) return;
+      }
+      const enrollment = check(
+        await db.auth.mfa.enroll({ factorType: "totp" }),
+      );
+      if (!current()) return;
       factor = enrollment.id;
       get("qr").src = enrollment.totp.qr_code;
       get("qr").hidden = false;
     }
+    get("mfa-instructions").textContent = get("qr").hidden
+      ? "Enter the six-digit code from your authenticator."
+      : "Scan this QR code with your authenticator, then enter its six-digit code.";
+    get("mfa-panel").hidden = false;
     message("Verify your authenticator to continue.");
     return;
   }
-  get("mfa-panel").hidden = true;
-  const ministries = check(await db.from("ministries").select("id,name"));
-  editor.elements.ministry_id.replaceChildren(new Option("Parish-wide",""),...ministries.map((m) => new Option(m.name,m.id)));
+  const grants = check(
+    await db
+      .from("admin_grants")
+      .select("permission,ministry_id")
+      .eq("user_id", data.user.id),
+  );
+  if (!current()) return;
+  const ministries = check(
+    await db.from("ministries").select("id,name").order("name"),
+  );
+  if (!current()) return;
+  dashboard = createDashboard({
+    db,
+    account,
+    user: data.user,
+    grants,
+    ministries,
+  });
+  verifiedUserId = data.user.id;
+  get("auth-layout").hidden = true;
   get("workspace").hidden = false;
-  await load();
-}
-async function load() {
-  records = check(await db.from(table).select("*").order("created_at",{ascending:false}).limit(100));
-  render();
-  message("Content loaded. Database permissions apply to every save.");
-}
-function render() {
-  const query = get("search").value.trim().toLowerCase();
-  const visible = records.filter((record) => record.title.toLowerCase().includes(query));
-  get("records").replaceChildren();
-  if (!visible.length) { get("records").textContent = "No matching content."; return; }
-  for (const record of visible) {
-    const row = document.createElement("article"), copy = document.createElement("div");
-    const title = document.createElement("h2"), state = document.createElement("p"), button = document.createElement("button");
-    title.textContent = record.title; state.textContent = record.status;
-    button.textContent = "Edit"; button.onclick = () => edit(record);
-    copy.append(title,state); row.append(copy,button); get("records").append(row);
-  }
-}
-function edit(record = {}) {
-  editor.reset();
-  for (const [name,value] of Object.entries(record)) {
-    const field = editor.elements.namedItem(name);
-    if (!field) continue;
-    if (field.type === "datetime-local" && value) {
-      const date = new Date(value);
-      date.setMinutes(date.getMinutes()-date.getTimezoneOffset());
-      field.value = date.toISOString().slice(0,16);
-    } else field.value = value ?? "";
-  }
-  get("announcement-fields").hidden = table !== "announcements";
-  get("event-fields").hidden = table !== "events";
-  editor.elements.start_at.required = table === "events";
-  editor.elements.ministry_id.disabled = !!record.id;
-  editor.hidden = false;
-  editor.elements.title.focus();
+  await dashboard.start();
 }
 get("login-form").onsubmit = (event) => {
   event.preventDefault();
   run(async () => {
-    const form = event.currentTarget;
-    check(await db.auth.signInWithPassword({email:form.email.value,password:form.password.value}));
-    form.password.value = ""; await authorize();
+    const form = get("login-form");
+    const version = generation;
+    try {
+      check(
+        await db.auth.signInWithPassword({
+          email: form.elements.email.value,
+          password: form.elements.password.value,
+        }),
+      );
+    } finally {
+      form.elements.password.value = "";
+    }
+    if (version !== generation) return;
+    recovery = false;
+    await authorize();
   });
 };
-get("reset-request").onclick = () => run(async () => {
-  if (!get("login-form").email.reportValidity()) return;
-  check(await db.auth.resetPasswordForEmail(get("login-form").email.value,{redirectTo:new URL("./index.html",location.href).href}));
-  message("Password reset requested. Check your email.");
-});
+get("reset-request").onclick = () =>
+  run(async () => {
+    const email = get("login-form").elements.email;
+    if (!email.reportValidity()) return;
+    check(
+      await db.auth.resetPasswordForEmail(email.value, {
+        redirectTo: new URL("./index.html", location.href).href,
+      }),
+    );
+    message("Password reset requested. Check your email.");
+  });
 get("password-form").onsubmit = (event) => {
   event.preventDefault();
   run(async () => {
-    check(await db.auth.updateUser({password:get("password-form").password.value}));
-    get("password-panel").hidden = true; await authorize();
+    const version = generation;
+    check(
+      await db.auth.updateUser({
+        password: get("password-form").elements.password.value,
+      }),
+    );
+    if (version !== generation) return;
+    recovery = false;
+    await authorize();
   });
 };
-get("verify").onclick = () => run(async () => {
-  check(await db.auth.mfa.challengeAndVerify({factorId:factor,code:get("mfa-code").value}));
-  get("mfa-code").value = ""; await authorize();
-});
-get("logout").onclick = () => run(async () => {
-  hidePrivate(); check(await db.auth.signOut()); location.reload();
-});
-editor.onsubmit = (event) => {
+get("mfa-form").onsubmit = (event) => {
   event.preventDefault();
-  run(async () => {
-    const names = table === "announcements"
-      ? ["title","summary","body","title_ar","body_ar","ministry_id","placement","status","publish_at","expires_at"]
-      : ["title","body","ministry_id","location","status","start_at","end_at"];
-    const payload = {};
-    for (const name of names) {
-      const field = editor.elements.namedItem(name);
-      payload[name] = field.value;
-      if (field.type === "datetime-local") payload[name] = field.value ? new Date(field.value).toISOString() : null;
-    }
-    payload.ministry_id ||= null;
-    if (table === "announcements") payload.publish_at ||= new Date().toISOString();
-    if (payload.status === "published" && !confirm("Publish these changes to the public website?")) return;
-    const id = editor.elements.id.value;
-    const request = id ? db.from(table).update(payload).eq("id",id) : db.from(table).insert(payload);
-    const saved = check(await request.select("id"));
-    if (!saved.length) throw new Error("Save was denied or the record is no longer available.");
-    editor.hidden = true; await load(); message("Changes saved.");
-  });
+  if (busy) return;
+  busy = true;
+  const version = generation;
+  let verified = false;
+  // A mistyped code must leave the current enrollment available for retry.
+  withTimeout(
+    db.auth.mfa.challengeAndVerify({
+      factorId: factor,
+      code: get("mfa-code").value,
+    }),
+    "Authenticator verification",
+  )
+    .then(check)
+    .then(() => {
+      if (version === generation) {
+        verified = true;
+        return withTimeout(authorize(), "Account authorization", 30000);
+      }
+    })
+    .catch((error) => {
+      if (version === generation || (verified && generation === version + 1)) {
+        if (verified) {
+          clearPrivate();
+          get("login").hidden = false;
+        }
+        message(error.message, true);
+      }
+    })
+    .finally(() => {
+      busy = false;
+      get("mfa-code").value = "";
+    });
 };
-document.querySelectorAll("[data-table]").forEach((button) => button.onclick = () => run(async () => {
-  table = button.dataset.table; editor.hidden = true; await load();
-}));
-get("new-record").onclick = () => edit();
-get("close-editor").onclick = () => { editor.hidden = true; };
-get("refresh").onclick = () => run(load);
-get("search").oninput = render;
+get("logout").onclick = async () => {
+  clearPrivate();
+  recovery = false;
+  try {
+    check(await withTimeout(db.auth.signOut(), "Sign out"));
+    get("logout").hidden = true;
+    get("login").hidden = false;
+    message("Signed out.");
+  } catch (error) {
+    message(
+      "Private workspace cleared. Sign out failed; retry Sign out before leaving this device. " +
+        error.message,
+      true,
+    );
+  }
+};
 run(async () => {
   db = await getSupabase();
-  db.auth.onAuthStateChange((event) => {
-    if (event === "SIGNED_OUT") { hidePrivate(); get("login").hidden = false; }
+  db.auth.onAuthStateChange((event, session) => {
+    if (
+      event === "SIGNED_IN" &&
+      verifiedUserId &&
+      session?.user?.id !== verifiedUserId
+    ) {
+      clearPrivate();
+      message(
+        "Account changed. Verifying access; refresh if this message persists.",
+      );
+      setTimeout(() => run(authorize), 0);
+    }
+    if (event === "SIGNED_OUT") {
+      clearPrivate();
+      get("login").hidden = false;
+      get("logout").hidden = true;
+      message("Signed out.");
+    }
     if (event === "PASSWORD_RECOVERY") {
-      hidePrivate(); get("login").hidden = true;
-      get("password-panel").hidden = false; message("Set a new password for your account.");
+      recovery = true;
+      clearPrivate();
+      get("password-panel").hidden = false;
+      message("Set a password for your account.");
+    }
+    // Never await SDK requests inside the auth callback (it holds the auth lock).
+    if (event === "TOKEN_REFRESHED" && !recovery && !busy) {
+      clearPrivate();
+      setTimeout(() => run(authorize), 0);
     }
   });
-  if (callback.has("error") || callback.has("error_description")) {
-    get("login").hidden = false;
-    throw new Error("The authentication link is invalid or expired. Request a new invitation or password reset.");
-  }
-  if (passwordCallback) {
+  if (callback.has("error") || callback.has("error_description"))
+    throw Error(
+      "The authentication link is invalid or expired. Request a new invitation or password reset.",
+    );
+  if (["invite", "recovery"].includes(callback.get("type")) || recovery) {
+    const version = generation;
     const { data, error } = await db.auth.getUser();
-    if (error || !data.user) {
-      get("login").hidden = false;
-      throw new Error("The authentication link could not be verified. Request a new invitation or password reset.");
-    }
-    get("login").hidden = true;
-    get("password-panel").hidden = false; message("Set a password for your account."); return;
+    if (version !== generation) return;
+    if (error || !data.user)
+      throw Error(
+        "The authentication link could not be verified. Request a new invitation or password reset.",
+      );
+    recovery = true;
+    clearPrivate();
+    get("password-panel").hidden = false;
+    get("logout").hidden = false;
+    message("Set a password for your account.");
+    return;
   }
   await authorize();
 });
-
