@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Parish Administration | St. Mary</title>
+    <link rel="icon" type="image/png" href="../assets/images/logo-main.png" />
+    <link rel="stylesheet" href="../css/admin.css?v=dashboard-1" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to workspace</a>
+    <header class="admin-header">
+      <a class="admin-brand" href="../index.html"
+        ><img
+          src="../assets/images/logo-main.png"
+          alt="St. Mary"
+          width="44"
+          height="44"
+        /><span
+          ><strong>St. Mary</strong><small>Parish Administration</small></span
+        ></a
+      >
+      <div class="header-actions">
+        <a href="../index.html" class="website-link"
+          >View website <span aria-hidden="true">↗</span></a
+        ><button id="logout" class="dark-button" hidden>
+          <img class="icon" src="icons/log-out.svg" alt="" />Sign out
+        </button>
+      </div>
+    </header>
+    <p id="status" class="global-status" role="status" aria-live="polite">
+      Checking configuration...
+    </p>
+    <main id="main-content">
+      <div class="auth-layout" id="auth-layout">
+        <section id="login" class="auth-card" hidden>
+          <p class="eyebrow">Welcome to St. Mary</p>
+          <h1>Parish sign in</h1>
+          <p class="muted">For invited clergy and parish servants.</p>
+          <form id="login-form">
+            <label
+              >Email<input
+                name="email"
+                type="email"
+                autocomplete="username"
+                required /></label
+            ><label
+              >Password<input
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required /></label
+            ><button class="primary">Sign in</button
+            ><button type="button" id="reset-request" class="quiet">
+              Send password reset
+            </button>
+          </form>
+        </section>
+        <section id="password-panel" class="auth-card" hidden>
+          <p class="eyebrow">Your account</p>
+          <h1>Set your password</h1>
+          <form id="password-form">
+            <label
+              >New password<input
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                minlength="12"
+                required /></label
+            ><button class="primary">Save password</button>
+          </form>
+        </section>
+        <section id="mfa-panel" class="auth-card" hidden>
+          <p class="eyebrow">Secure access</p>
+          <h1>Authenticator verification</h1>
+          <p id="mfa-instructions">
+            Enter the six-digit code from your authenticator.
+          </p>
+          <img id="qr" alt="Scan to enroll your authenticator" hidden />
+          <form id="mfa-form">
+            <label
+              >Verification code<input
+                id="mfa-code"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                pattern="[0-9]{6}"
+                maxlength="6"
+                required /></label
+            ><button id="verify" class="primary">Verify and continue</button>
+          </form>
+        </section>
+      </div>
+      <div id="workspace" class="dashboard-layout" hidden>
+        <button
+          id="sidebar-toggle"
+          class="mobile-menu"
+          aria-expanded="false"
+          aria-controls="sidebar"
+        >
+          <img class="icon" src="icons/menu.svg" alt="" />Parish menu
+        </button>
+        <aside id="sidebar" class="sidebar">
+          <p class="sidebar-label">Workspace</p>
+          <nav aria-label="Administration">
+            <button data-view="overview" class="active">
+              <img
+                class="icon"
+                src="icons/layout-dashboard.svg"
+                alt=""
+              />Overview
+            </button>
+            <button data-view="announcements" hidden>
+              <img class="icon" src="icons/megaphone.svg" alt="" />Announcements
+            </button>
+            <button data-view="events" hidden>
+              <img class="icon" src="icons/calendar-days.svg" alt="" />Events
+            </button>
+            <button data-view="services" hidden>
+              <img class="icon" src="icons/clock.svg" alt="" />Weekly Services
+            </button>
+          </nav>
+          <div class="sidebar-identity">
+            <span class="identity-avatar" aria-hidden="true">SM</span>
+            <div>
+              <strong id="user-role"></strong><span id="user-email"></span>
+            </div>
+          </div>
+        </aside>
+        <div class="workspace-content">
+          <div class="workspace-heading">
+            <div>
+              <p class="eyebrow">St. Mary · Des Moines</p>
+              <h1 id="view-title" tabindex="-1">Overview</h1>
+            </div>
+            <button id="refresh" title="Refresh current view">
+              <img class="icon" src="icons/refresh-cw.svg" alt="" />Refresh
+            </button>
+          </div>
+          <section id="overview-view" data-panel="overview">
+            <p class="muted scope-note">
+              Your authorized parish content · America/Chicago
+            </p>
+            <div class="metrics" id="metrics"></div>
+            <div class="quick-actions">
+              <button class="primary" data-create="announcements" hidden>
+                <img class="icon" src="icons/plus.svg" alt="" />New announcement</button
+              ><button data-create="events" hidden>
+                <img class="icon" src="icons/plus.svg" alt="" />New event
+              </button>
+            </div>
+            <div class="overview-columns">
+              <section class="panel">
+                <h2>Upcoming parish services</h2>
+                <div id="upcoming-list"></div>
+                <a href="../events.html">View public calendar</a>
+              </section>
+              <section class="panel">
+                <h2>Recent activity</h2>
+                <div id="activity-list"></div>
+              </section>
+            </div>
+          </section>
+          <section id="content-view" data-panel="content" hidden>
+            <div class="content-toolbar">
+              <label class="search-label"
+                >Search titles<input
+                  id="search"
+                  type="search"
+                  placeholder="Search parish content" /></label
+              ><button id="new-record" class="primary">
+                <img class="icon" src="icons/plus.svg" alt="" />Create draft
+              </button>
+            </div>
+            <div class="filters">
+              <label
+                >Status<select id="status-filter">
+                  <option value="">All statuses</option>
+                </select></label
+              ><label
+                >Ministry<select id="ministry-filter">
+                  <option value="">All permitted ministries</option>
+                </select></label
+              ><label id="placement-filter-label"
+                >Placement<select id="placement-filter">
+                  <option value="">All placements</option>
+                  <option value="announcements">Announcements page</option>
+                  <option value="homepage">Homepage</option>
+                  <option value="ministry">Ministry</option>
+                  <option value="site_banner">Site banner</option>
+                </select></label
+              >
+            </div>
+            <div id="records" class="record-list" aria-live="polite"></div>
+            <div class="pagination">
+              <button id="previous-page">Previous</button
+              ><span id="page-label"></span><button id="next-page">Next</button>
+            </div>
+          </section>
+          <section id="services-view" data-panel="services" hidden>
+            <p class="muted">Weekly worship · America/Chicago</p>
+            <div id="series-list" class="record-list"></div>
+            <form id="series-form" class="panel" hidden>
+              <h2>Edit entire weekly series</h2>
+              <p class="notice">
+                Changes apply to the weekly schedule, not just one date.
+              </p>
+              <input name="id" type="hidden" /><label
+                >Service title<input name="title" maxlength="200" required
+              /></label>
+              <div class="field-grid">
+                <label
+                  >Weekday<select name="weekday">
+                    <option value="0">Sunday</option>
+                    <option value="1">Monday</option>
+                    <option value="2">Tuesday</option>
+                    <option value="3">Wednesday</option>
+                    <option value="4">Thursday</option>
+                    <option value="5">Friday</option>
+                    <option value="6">Saturday</option>
+                  </select></label
+                ><label
+                  >Status<select name="status">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                  </select></label
+                ><label
+                  >Starts (Central)<input
+                    name="local_start_time"
+                    type="time"
+                    required /></label
+                ><label
+                  >Ends (optional)<input
+                    name="local_end_time"
+                    type="time" /></label
+                ><label
+                  >Effective from<input
+                    name="start_date"
+                    type="date"
+                    min="2007-01-01"
+                    max="9999-12-31"
+                    required /></label
+                ><label
+                  >Effective until (optional)<input
+                    name="end_date"
+                    type="date"
+                    min="2007-01-01"
+                    max="9999-12-31"
+                /></label>
+              </div>
+              <div class="form-actions">
+                <button class="primary">Save entire series</button
+                ><button type="button" data-close="series-form">Cancel</button>
+              </div>
+            </form>
+            <form id="exception-form" class="panel" hidden>
+              <h2>Change one occurrence</h2>
+              <p id="exception-service" class="muted"></p>
+              <input name="series_id" type="hidden" />
+              <div class="field-grid">
+                <label
+                  >Original date<input
+                    name="original_date"
+                    type="date"
+                    required /></label
+                ><label
+                  >Action<select name="action">
+                    <option value="cancel">Cancel this occurrence</option>
+                    <option value="modify">Reschedule this occurrence</option>
+                  </select></label
+                >
+              </div>
+              <div id="replacement-fields" class="field-grid" hidden>
+                <label
+                  >Replacement date<input
+                    name="replacement_date"
+                    type="date" /></label
+                ><label
+                  >Starts (Central)<input
+                    name="replacement_start"
+                    type="time" /></label
+                ><label
+                  >Ends (optional)<input name="replacement_end" type="time"
+                /></label>
+              </div>
+              <label
+                >Reason<input name="reason" maxlength="1000" required
+              /></label>
+              <div class="form-actions">
+                <button class="primary">Save occurrence change</button
+                ><button type="button" data-close="exception-form">
+                  Cancel
+                </button>
+              </div>
+              <h3>Existing changes</h3>
+              <div id="exception-list"></div>
+            </form>
+          </section>
+          <section id="editor-panel" hidden>
+            <form id="editor" class="panel">
+              <div class="panel-heading">
+                <h2 id="editor-heading">New announcement</h2>
+                <button
+                  type="button"
+                  id="close-editor"
+                  class="icon-button"
+                  aria-label="Close editor"
+                  title="Close editor"
+                >
+                  <img class="icon" src="icons/x.svg" alt="" />
+                </button>
+              </div>
+              <input name="id" type="hidden" />
+              <label
+                >Title<input name="title" maxlength="200" required
+              /></label>
+              <div class="field-grid">
+                <label>Ministry<select name="ministry_id"></select></label
+                ><label>Status<select name="status"></select></label>
+              </div>
+              <label
+                >English content<textarea
+                  name="body"
+                  rows="7"
+                  maxlength="30000"
+                ></textarea>
+              </label>
+              <fieldset id="announcement-fields">
+                <legend>Announcement details</legend>
+                <label
+                  >Summary<textarea
+                    name="summary"
+                    rows="2"
+                    maxlength="1000"
+                  ></textarea>
+                </label>
+                <div class="field-grid">
+                  <label
+                    >Placement<select name="placement">
+                      <option value="announcements">Announcements page</option>
+                      <option value="homepage">Homepage</option>
+                      <option value="ministry">Ministry</option>
+                      <option value="site_banner">Site banner</option>
+                    </select></label
+                  ><label
+                    >Publication (Central)<input
+                      name="publish_at"
+                      type="datetime-local" /></label
+                  ><label
+                    >Expiration (optional, Central)<input
+                      name="expires_at"
+                      type="datetime-local"
+                  /></label>
+                </div>
+                <details>
+                  <summary>Arabic content (optional)</summary>
+                  <label
+                    >Arabic title<input
+                      name="title_ar"
+                      maxlength="200"
+                      lang="ar"
+                      dir="rtl" /></label
+                  ><label
+                    >Arabic content<textarea
+                      name="body_ar"
+                      rows="6"
+                      maxlength="30000"
+                      lang="ar"
+                      dir="rtl"
+                    ></textarea>
+                  </label>
+                </details>
+              </fieldset>
+              <fieldset id="event-fields" hidden>
+                <legend>Event details · America/Chicago</legend>
+                <label>Location<input name="location" maxlength="500" /></label>
+                <div class="field-grid">
+                  <label
+                    >Starts (Central)<input
+                      name="start_at"
+                      type="datetime-local" /></label
+                  ><label
+                    >Ends (optional, Central)<input
+                      name="end_at"
+                      type="datetime-local"
+                  /></label>
+                </div>
+              </fieldset>
+              <p id="editor-permission" class="notice"></p>
+              <div class="form-actions">
+                <button type="submit" id="save-record" class="primary">
+                  Save draft</button
+                ><button type="button" id="publish-now">Publish now</button
+                ><button type="button" id="preview-button">Preview</button>
+              </div>
+            </form>
+            <section
+              id="preview-panel"
+              class="panel"
+              hidden
+              aria-label="Announcement preview"
+            >
+              <p class="eyebrow">Public content preview</p>
+              <div id="preview-content"></div>
+            </section>
+          </section>
+        </div>
+      </div>
+    </main>
+    <noscript
+      ><p class="notice">
+        JavaScript is required to sign in to parish administration.
+      </p></noscript
+    >
+    <script>
+      setTimeout(() => {
+        const s = document.getElementById("status");
+        if (s.textContent === "Checking configuration...")
+          s.textContent =
+            "Administration could not initialize. Check your connection and refresh.";
+      }, 35000);
+    </script>
+    <script type="module" src="../js/admin/portal.js?v=dashboard-1"></script>
+  </body>
+</html>

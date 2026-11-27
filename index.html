@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="St. Mary Coptic Orthodox Church in Des Moines, Iowa. Join us for Divine Liturgy, Sunday School, fellowship, and Orthodox Christian worship." />
   <title>St. Mary Coptic Orthodox Church | Des Moines, Iowa</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=76264de5f37d" />
 </head>
 
 <body>
@@ -142,6 +142,7 @@
     </section>
 
     <section class="home-dashboard" aria-label="Homepage overview">
+      <div class="home-card-column">
       <article class="dashboard-card welcome-card" id="new-here">
         <p class="section-label">Welcome to Our Community</p>
         <h2>Welcome to St. Mary</h2>
@@ -191,13 +192,28 @@
         </div>
       </article>
 
+      </div>
+      <div class="home-card-column home-parish-column">
+      <section class="dashboard-card parish-announcements" data-announcements="home" aria-labelledby="home-announcement-title">
+        <p class="section-label">Parish Life</p>
+        <h3 id="home-announcement-title" class="parish-card-title">
+          <svg class="announcement-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3Z"/><path d="M7 15v5h3v-4M21 3v18"/></svg>
+          Parish Announcements
+        </h3>
+        <p id="announcement-status" role="status">Loading announcements...</p>
+        <div id="announcement-list"></div>
+        <button id="announcement-retry" class="btn btn-primary" type="button" hidden>Try again</button>
+        <a href="announcements.html" class="btn btn-primary announcement-view-all">View All Announcements</a>
+        <noscript><p>Enable JavaScript to see current announcements.</p></noscript>
+      </section>
       <aside class="events-box" id="events">
-        <h2>Upcoming Events</h2>
+        <h3 class="parish-card-title">Upcoming Events</h3>
 
         <p>All times Central</p>
         <div data-parish-upcoming></div>
         <a href="events.html" class="text-link">View Parish Calendar</a>
       </aside>
+      </div>
     </section>
 
     <section class="quick-actions" aria-label="Church services and next steps">
@@ -248,7 +264,8 @@
 
   <div data-site-footer id="contact"></div>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=e59ba7094026"></script>
+  <script type="module" src="js/public-content.js?v=f954190b6f12"></script>
   <script src="js/parish-schedule.js" defer></script>
   <script src="js/parish-calendar.js" defer></script>
 </body>

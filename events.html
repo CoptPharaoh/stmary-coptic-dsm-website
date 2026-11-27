@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Find upcoming worship and events at St. Mary Coptic Orthodox Church in Des Moines, Iowa." />
   <title>Parish Calendar | St. Mary Coptic Orthodox Church</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=76264de5f37d" />
 </head>
 <body>
   <div data-site-header></div>
@@ -18,7 +18,7 @@
       </div></div>
     </section>
     <div class="page-shell content-page">
-      <section class="content-section" aria-labelledby="parish-month-title">
+      <section class="content-section" id="parish-calendar" aria-labelledby="parish-month-title">
         <p class="section-label">Central Time &middot; America/Chicago</p>
         <h2 id="parish-month-title" aria-live="polite">Services and Events</h2>
         <form class="parish-calendar-actions" data-parish-month hidden>
@@ -29,13 +29,13 @@
           <button class="btn btn-outline" type="submit">Go</button>
         </form>
         <p>Open a downloaded .ics file in your personal calendar to add one service or a weekly series. Imported events do not sync with later changes; check this page before visiting.</p>
-        <div data-parish-month-events></div>
+        <div id="upcoming-events" data-parish-month-events></div>
         <noscript><p>Enable JavaScript to browse the calendar, or see the <a href="index.html#schedule">regular weekly schedule</a>.</p></noscript>
       </section>
     </div>
   </main>
   <div data-site-footer></div>
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=e59ba7094026" defer></script>
   <script src="js/parish-schedule.js" defer></script>
   <script src="js/parish-calendar.js" defer></script>
 </body>
